@@ -15,4 +15,5 @@ build/
 .DS_Store
 Thumbs.db
 
-.next
+
+.next/
