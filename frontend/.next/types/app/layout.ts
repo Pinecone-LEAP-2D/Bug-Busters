@@ -1,4 +1,4 @@
-// File: /Users/24LP7027/Desktop/coffee/front-end/src/app/layout.tsx
+// File: /Users/24LP7027/Desktop/Bug-Busters/frontend/src/app/layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
