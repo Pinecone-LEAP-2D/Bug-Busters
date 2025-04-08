@@ -9,7 +9,7 @@ export const Header = () => {
         Buy Me Coffee
       </div>
       <div>
-        <Button className="bg-gray-200 text-">Log out</Button>
+        <Button className="bg-gray-200 text-black">Log out</Button>
       </div>
     </div>
   );
