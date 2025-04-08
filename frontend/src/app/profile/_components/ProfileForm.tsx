@@ -15,12 +15,7 @@ interface FormValues {
   about: string;
   socialUrl: string;
 }
-
-interface ProfileFormProps {
-  setStep: (step: number) => void;
-  step: number;
-}
-const ProfileForm: React.FC<ProfileFormProps> = ({ setStep }) => {
+const ProfileForm: React.FC = () => {
   const [photo, setPhoto] = useState<File | null>(null);
   const initialValues: FormValues = {
     name: "",
@@ -41,9 +36,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ setStep }) => {
   };
   const handleSubmit = (values: FormValues) => {
     console.log({ ...values, photo });
-    setStep(2);
   };
-
   console.log(photo);
   return (
     <Formik
@@ -119,7 +112,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ setStep }) => {
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         >
-          Continue
+          Hug
         </button>
       </Form>
     </Formik>
