@@ -12,11 +12,18 @@ import { useUser } from "@/app/provider/UserProvider";
 
 const PasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .max(32, "Password can’t be longer than 32 characters")
+    .matches(/[a-z]/, "Must include a lowercase letter")
+    .matches(/[A-Z]/, "Must include an uppercase letter")
+    .matches(/\d/, "Must include a number")
+    .matches(/[@$!%*?&]/, "Must include a special character")
+    .required("Password is required"),
 });
 
 const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
-  const {createUser}=useUser();
+  const { createUser } = useUser();
   const { setStep } = props;
   const router = useRouter();
   const previousPage = () => {
