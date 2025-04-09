@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,48 +15,54 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  username    String?
-  password   String
-  recievedDonations Donations?
-  createdAt DateTime @default(now())
-  profileId Int
-  bankCard BankCard
-  updatedAt DateTime @updatedAt
+  id                Int        @id @default(autoincrement())
+  email             String     @unique
+  username          String?    @unique
+  password          String
+  profileId         Int        @unique
+  profile           Profile    @relation(fields: [profileId], references: [id])
+  bankCard          BankCard?  @relation() // No fields/references here
+  receivedDonations Donation[] @relation("RecipientDonations")
+  sentDonations     Donation[] @relation("DonorDonations")
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model BankCard {
-  id Int @id @default(autoincrement())
-  country String
-  firstName String
-  lastName String
+  id         Int      @id @default(autoincrement())
+  country    String
+  firstName  String
+  lastName   String
   cardNumber String
-  expireDate Date
-  userId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  expiryDate DateTime
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Profile {
-  id Int @id @default(autoincrement())
-  name String
-  about String
-  avatarImage String
-  socialMediaURL String
+  id              Int      @id @default(autoincrement())
+  name            String
+  about           String
+  avatarImage     String
+  socialMediaURL  String
   backgroundImage String
-  successMessage String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  successMessage  String
+  user            User?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Donation {
-  id Int @id @default(autoincrement())
-  amount Int
-  specialMessage String
+  id                     Int      @id @default(autoincrement())
+  amount                 Int
+  specialMessage         String
   socialURLOrBuyMeCoffee String
-  donorId Int
-  recipientId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  donorId                Int
+  recipientId            Int
+  donor                  User     @relation("DonorDonations", fields: [donorId], references: [id])
+  recipient              User     @relation("RecipientDonations", fields: [recipientId], references: [id])
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
