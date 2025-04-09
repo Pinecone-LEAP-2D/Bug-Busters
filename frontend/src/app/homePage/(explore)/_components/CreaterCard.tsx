@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 
 const CreaterCard = () => {
   const { id } = useParams();
-  const userName = "BaldanPerevlee";
+  const userName = "BaldanPerenlee";
 
   return (
     <div className="w-full h-auto p-6 border cursor-default flex flex-col gap-4 rounded-lg">
