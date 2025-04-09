@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
 
-export const createProfile = async (req: Request, res: Response) => {
+export const updateProfile = async (req: Request, res: Response) => {
     const {name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId} = req.body;
 
     try {
-        const newProfile = await prisma.profile.create({
+        const updatedProfile = await prisma.profile.update({
+            where: {userId: userId},
             data: {
                 name: name,
                 about: about,
@@ -14,10 +15,9 @@ export const createProfile = async (req: Request, res: Response) => {
                 socialMediaURL: socialMediaURL,
                 backgroundImage: backgroundImage,
                 successMessage: successMessage,
-                userId: userId
             }
         })
-        res.status(201).json(`Profile created ${newProfile}`);
+        res.status(201).json(`Profile updated ${updatedProfile}`);
     } catch (error) {
         console.log("Error occured ", error);
         res.send().status(400)
