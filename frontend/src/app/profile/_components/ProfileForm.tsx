@@ -44,7 +44,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ setStep }) => {
     setStep(2);
   };
 
-  console.log(photo);
   return (
     <Formik
       initialValues={initialValues}

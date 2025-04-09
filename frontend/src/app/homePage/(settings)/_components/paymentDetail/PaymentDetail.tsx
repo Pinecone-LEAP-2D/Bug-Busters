@@ -46,20 +46,6 @@ const PaymentDetail = () => {
                 onChange={(value) => setFieldValue("cardNumber", value)}
               />
             </div>
-            {/* <div className="flex items-center gap-4">
-              <ExpiryDateSelector
-                value={values.expiryDate}
-                onChange={(value) => setFieldValue("expiryDate", value)}
-              />
-              <div className="w-1/2">
-                <InputField
-                  label="Cvc"
-                  value={values.cvc}
-                  onChange={(value) => setFieldValue("cvc", value)}
-                />
-              </div>
-            </div> */}
-
             <button
               type="submit"
               className="w-full h-auto cursor-pointer text-[14px] x-4 py-2 flex items-center justify-center bg-black rounded-sm text-white"
