@@ -3,9 +3,20 @@
 import { Formik } from "formik";
 import CountrySelection from "@/app/homePage/(settings)/_components/paymentDetail/CountrySelection";
 import InputField from "@/app/[userId]/components/InputField";
+import ExpiryDateSelector from "@/app/homePage/(settings)/_components/paymentDetail/ExpiryDate";
+import axios from "axios";
 
 type BankCardProps = {
-  setStep?: (step: number) => void;
+  setStep: (step: number) => void;
+};
+
+type PaymentFormValues = {
+  country: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiryDate: Date | null;
+  cvc: string;
 };
 
 const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
@@ -14,17 +25,34 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
   };
   return (
     <div>
-      <Formik
+      <Formik<PaymentFormValues>
         initialValues={{
           country: "",
           firstName: "",
           lastName: "",
           cardNumber: "",
-          expiryDate: "",
+          expiryDate: null,
           cvc: "",
         }}
-        onSubmit={(values) => {
-          console.log("payment detail", values);
+        onSubmit={async (values) => {
+          const formattedValues = {
+            ...values,
+            expiryDate: values.expiryDate
+              ? values.expiryDate.toISOString()
+              : "",
+          };
+
+          try {
+            const response = await axios.post(
+              "http://localhost:8000/bankCard",
+              formattedValues
+            );
+            console.log("Bank card created successfuly", response.data);
+            return response.data;
+          } catch (error) {
+            console.log("error in creating bank card from front end", error);
+          }
+          console.log("payment detail created", formattedValues);
         }}
       >
         {({ values, handleSubmit, setFieldValue }) => (
@@ -54,6 +82,19 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
                   value={values.cardNumber}
                   onChange={(value) => setFieldValue("cardNumber", value)}
                 />
+              </div>
+              <div className="flex items-center gap-4">
+                <ExpiryDateSelector
+                  value={values.expiryDate}
+                  onChange={(value) => setFieldValue("expiryDate", value)}
+                />
+                <div className="w-1/2">
+                  <InputField
+                    label="Cvc"
+                    value={values.cvc}
+                    onChange={(value) => setFieldValue("cvc", value)}
+                  />
+                </div>
               </div>
               <button
                 type="submit"

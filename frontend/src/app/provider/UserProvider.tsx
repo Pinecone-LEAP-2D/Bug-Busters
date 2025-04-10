@@ -4,6 +4,7 @@ import { useState, createContext, useContext, useEffect } from "react";
 import axios from "axios";
 // import { createUser } from "../../../../back-end/src/controller/user/createUser.controller";
 import { logInUser } from "../../../../back-end/src/controller/user/logIn.controller";
+import { jwtDecode } from "jwt-decode";
 
 type userContextType = {
   userName: string;
@@ -27,20 +28,31 @@ type userContextType = {
   }) => Promise<void>;
 };
 
+type DecodedToken = {
+  userId: number;
+  email: string;
+  username: string;
+};
+const getDecodedToken = async (token: string | null) => {
+  if (!token) return null;
+
+  try {
+    return jwtDecode(token);
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null;
+  }
+};
+
 const UserContext = createContext<userContextType>({} as userContextType);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<userContextType>({} as userContextType);
+  const [token, setToken] = useState<string | null>(null);
+  const [client, setClient] = useState<DecodedToken | null>();
+
   const router = useRouter();
 
-  useEffect(() => {
-    const user1 = localStorage.getItem("user");
-    if (user1) {
-      const user = JSON.parse(user1);
-
-      setUser(user!);
-    }
-  }, []);
   const createUser = async ({
     email,
     password,
@@ -69,16 +81,28 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       email,
       password,
     });
+    localStorage.setItem("token", response.data.token);
+    router.push("/profile");
     console.log("logInUser ", response);
+    const getUser = async () => {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+      const user = await getDecodedToken(storedToken);
+      setClient(user);
+    };
+
+    useEffect(() => {
+      getUser();
+    }, []);
   };
   return (
     <UserContext.Provider
       value={{
-        userName: user.userName,
-        email: user.email,
-        password: user.password,
         createUser: createUser,
         logInUser: logInUser,
+        email: client?.email,
+        userId: client?.userId,
+        username: client?.username,
       }}
     >
       {children}

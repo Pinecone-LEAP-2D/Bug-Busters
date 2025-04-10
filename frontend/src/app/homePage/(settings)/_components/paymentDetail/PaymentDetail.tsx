@@ -2,20 +2,33 @@ import { Formik } from "formik";
 import CountrySelection from "./CountrySelection";
 import InputField from "../InputField";
 import ExpiryDateSelector from "./ExpiryDate";
+type PaymentFormValues = {
+  country: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiryDate: Date | null;
+  cvc: string;
+};
 
 const PaymentDetail = () => {
   return (
-    <Formik
+    <Formik<PaymentFormValues>
       initialValues={{
         country: "",
         firstName: "",
         lastName: "",
         cardNumber: "",
-        expiryDate: "",
+        expiryDate: null,
         cvc: "",
       }}
       onSubmit={(values) => {
-        console.log("payment detail", values);
+        const formattedValues = {
+          ...values,
+          expiryDate: values.expiryDate ? values.expiryDate.toISOString() : "",
+        };
+
+        console.log("payment detail", formattedValues);
       }}
     >
       {({ values, handleSubmit, setFieldValue }) => (
@@ -46,7 +59,7 @@ const PaymentDetail = () => {
                 onChange={(value) => setFieldValue("cardNumber", value)}
               />
             </div>
-            {/* <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
               <ExpiryDateSelector
                 value={values.expiryDate}
                 onChange={(value) => setFieldValue("expiryDate", value)}
@@ -58,7 +71,7 @@ const PaymentDetail = () => {
                   onChange={(value) => setFieldValue("cvc", value)}
                 />
               </div>
-            </div> */}
+            </div>
 
             <button
               type="submit"
