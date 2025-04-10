@@ -5,6 +5,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/app/provider/UserProvider";
 
 const PasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -20,7 +21,7 @@ const PasswordSchema = Yup.object().shape({
 
 export const LoginFirst = () => {
   const router = useRouter();
-
+  const { logInUser } = useUser();
   return (
     <Formik
       initialValues={{
@@ -30,6 +31,7 @@ export const LoginFirst = () => {
       validationSchema={PasswordSchema}
       onSubmit={(values) => {
         console.log(values);
+        logInUser(values);
         router.push("/home-page");
       }}
     >

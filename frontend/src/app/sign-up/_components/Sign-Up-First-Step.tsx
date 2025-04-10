@@ -19,6 +19,7 @@ const FirstStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
       validationSchema={SignupSchema}
       onSubmit={(values) => {
         setStep(2);
+        localStorage.setItem("user", JSON.stringify(values));
         console.log(values);
       }}
     >
@@ -41,9 +42,8 @@ const FirstStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
             )}
           </div>
           <Button className="bg-gray-400" type="submit">
-           continue
+            continue
           </Button>
-        
         </Form>
       )}
     </Formik>

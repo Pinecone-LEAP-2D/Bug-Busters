@@ -10,8 +10,14 @@ export const createUser = async (req: Request, res: Response) => {
                 password: password,
                 username: username
             }
+            
         })
+        res.status(200).json({
+            success: true,
+            message: `Successfully sign up`,
+          });
     } catch (error) {
-        
+        console.log(error)
+        res.status(500).json({ error: true, message: "Internal Error" });
     }
 }
