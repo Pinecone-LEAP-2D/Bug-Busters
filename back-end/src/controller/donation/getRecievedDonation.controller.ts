@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
-export const getProfile = async (req: Request, res: Response) => {
+export const GetRecievedDonation = async (req: Request, res: Response) => {
   try {
-    const result = await prisma.profile.findMany();
+    const result = await prisma.donation.findMany();
     res.status(200).json({
       success: true,
-      message: `Successfully sign up`,
+      message: `Successfully donation`,
       data: result,
     });
   } catch (error) {
