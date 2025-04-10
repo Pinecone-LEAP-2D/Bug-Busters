@@ -1,11 +1,17 @@
+"use client";
+
 import { Header } from "@/components/Header";
 import ProfileForm from "./_components/ProfileForm";
+import { useState } from "react";
+import BankCard from "./_components/BankCard";
 
 const CreateProfile = () => {
+  const [step, setStep] = useState(1);
   return (
     <div className="p-5">
       <div className="flex justify-center items-center h-full">
-        <ProfileForm />
+        {step === 1 && <ProfileForm step={step} setStep={setStep} />}
+        {step === 2 && <BankCard step={step} />}
       </div>
     </div>
   );

@@ -15,7 +15,12 @@ interface FormValues {
   about: string;
   socialUrl: string;
 }
-const ProfileForm: React.FC = () => {
+
+type ProfileFormProps = {
+  step: number;
+  setStep: (setStep: number) => void;
+};
+const ProfileForm: React.FC<ProfileFormProps> = ({ setStep, step }) => {
   const [photo, setPhoto] = useState<File | null>(null);
   const initialValues: FormValues = {
     name: "",
@@ -36,6 +41,7 @@ const ProfileForm: React.FC = () => {
   };
   const handleSubmit = (values: FormValues) => {
     console.log({ ...values, photo });
+    setStep(2);
   };
   console.log(photo);
   return (
