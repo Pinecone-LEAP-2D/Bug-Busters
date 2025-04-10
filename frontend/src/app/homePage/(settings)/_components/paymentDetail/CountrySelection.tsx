@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formattedCountries } from "../../../_utils/countries";
+import { date } from "yup";
 
 const CountrySelection = ({
   value,
@@ -23,8 +24,8 @@ const CountrySelection = ({
         </SelectTrigger>
         <SelectContent>
           {formattedCountries.map((country) => (
-            <SelectItem key={country.value} value={country.label}>
-              {country.flag} {country.label}
+            <SelectItem key={country.name} value={country.name}>
+              {country.flag} {country.name}
             </SelectItem>
           ))}
         </SelectContent>
