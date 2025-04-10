@@ -2,11 +2,15 @@ import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
 export const GetTotalEarningsDonation = async (req: Request, res: Response) => {
-  // const {}=req.params
+  const userId = Number(req.params.userId);
+
   try {
     const result = await prisma.donation.aggregate({
       _sum: {
         amount: true,
+      },
+      where: {
+        recipientId: userId,
       },
     });
 

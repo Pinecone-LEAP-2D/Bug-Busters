@@ -1,28 +1,28 @@
-import { Request, Response } from 'express';
-import prisma from '../../prismaClient';
+import { Request, Response } from "express";
+import prisma from "../../prismaClient";
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
+    // const id = Number(req.params.id);
     const { id, password } = req.body;
 
     if (!id || !password) {
-       res.status(400).json({
+      res.status(400).json({
         success: false,
-        message: "Missing id or password"
+        message: "Missing id or password",
       });
-    }else{
+    } else {
+      const result = await prisma.user.update({
+        where: { id },
+        data: { password },
+      });
 
-    const result = await prisma.user.update({
-      where: { id },  
-      data: { password }
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "Successfully updated password",
-      data: result,
-    });
-  }
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated password",
+        data: result,
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: true, message: "Internal Error" });
