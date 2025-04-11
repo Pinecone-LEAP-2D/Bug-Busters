@@ -32,7 +32,6 @@ export const LoginFirst = () => {
       onSubmit={(values) => {
         console.log(values);
         logInUser(values);
-        router.push("/home-page");
       }}
     >
       {({ errors }) => (
