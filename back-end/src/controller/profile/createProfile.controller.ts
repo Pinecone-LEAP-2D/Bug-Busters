@@ -3,10 +3,21 @@ import prisma from "../../prismaClient";
 
 
 export const createProfile = async (req: Request, res: Response) => {
-    const {name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId} = req.body;
+    const { name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId } = req.body;
 
     try {
-        const newProfile = await prisma.profile.create({
+        const existingProfile = await prisma.profile.findUnique({
+            where: {
+                userId: userId,
+            },
+        });
+
+        if (existingProfile) {
+            res.status(400).json({ error: "Profile already exists for this user." });
+            return;
+        }
+
+        await prisma.profile.create({
             data: {
                 name: name,
                 about: about,
@@ -17,7 +28,7 @@ export const createProfile = async (req: Request, res: Response) => {
                 userId: userId
             }
         })
-        res.status(201).json(`Profile created ${newProfile}`);
+        res.status(201).json(`Profile created `);
     } catch (error) {
         console.log("Error occured ", error);
         res.send().status(400)
