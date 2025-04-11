@@ -8,7 +8,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/app/provider/UserProvider";
+import axios from "axios";
 
 const PasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -23,7 +23,7 @@ const PasswordSchema = Yup.object().shape({
 });
 
 const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
-  const { createUser } = useUser();
+  // const { createUser } = useUser();
   const { setStep } = props;
   const router = useRouter();
   const previousPage = () => {
@@ -36,13 +36,24 @@ const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
         password: "",
       }}
       validationSchema={PasswordSchema}
-      onSubmit={(values) => {
-        console.log(values);
-        const user = JSON.parse(localStorage.getItem("user")) || {};
-        localStorage.setItem("user", JSON.stringify({ ...user, ...values }));
-        const data = JSON.parse(localStorage.getItem("user"));
-        createUser(data);
-        router.push("/profile");
+      onSubmit={async (values) => {
+        try {
+          console.log(values);
+          const userName = localStorage.getItem("userName");
+          const response = await axios.post(
+            "http://localhost:8000/user/sign-up",
+            {
+              email: values.email,
+              password: values.password,
+              username: userName,
+            }
+          );
+          console.log("user created successfully", response);
+          router.push("/");
+          localStorage.removeItem("username");
+        } catch (error) {
+          console.error("Error creating user:", error);
+        }
       }}
     >
       {({ errors }) => (

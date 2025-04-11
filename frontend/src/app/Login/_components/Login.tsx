@@ -6,22 +6,14 @@ import * as Yup from "yup";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/app/provider/UserProvider";
+import axios from "axios";
 
 const PasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .max(32, "Password can’t be longer than 32 characters")
-    .matches(/[a-z]/, "Must include a lowercase letter")
-    .matches(/[A-Z]/, "Must include an uppercase letter")
-    .matches(/\d/, "Must include a number")
-    .matches(/[@$!%*?&]/, "Must include a special character")
-    .required("Password is required"),
 });
 
 export const LoginFirst = () => {
   const router = useRouter();
-  const { logInUser } = useUser();
   return (
     <Formik
       initialValues={{
@@ -29,9 +21,20 @@ export const LoginFirst = () => {
         password: "",
       }}
       validationSchema={PasswordSchema}
-      onSubmit={(values) => {
-        console.log(values);
-        logInUser(values);
+      onSubmit={async (values) => {
+        try {
+          const response = await axios.post(
+            "http://localhost:8000/user/logIn",
+            {
+              email: values.email,
+              password: values.password,
+            }
+          );
+          localStorage.setItem("token", response.data.token);
+          router.push("/homePage");
+        } catch (error) {
+          console.log("error in login:", error);
+        }
       }}
     >
       {({ errors }) => (
