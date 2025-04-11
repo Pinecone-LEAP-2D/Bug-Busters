@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/select";
 
 type ExpiryDateProps = {
-  value: string;
-  onChange: (value: string) => void;
+  value: Date | null;
+  onChange: (value: Date) => void;
 };
 
 const ExpiryDateSelector = ({ value, onChange }: ExpiryDateProps) => {
@@ -23,26 +23,36 @@ const ExpiryDateSelector = ({ value, onChange }: ExpiryDateProps) => {
   const [selectedYear, setSelectedYear] = useState<string>("");
 
   useEffect(() => {
-    if (value) {
-      const [year, month] = value.split("-");
-      if (month && year) {
-        setSelectedMonth(month);
-        setSelectedYear(year);
-      }
+    if (value && value instanceof Date) {
+      const month = String(value.getMonth() + 1).padStart(2, "0");
+      const year = String(value.getFullYear());
+      setSelectedMonth(month);
+      setSelectedYear(year);
     }
   }, [value]);
+
+  const createDateFromMonthYear = (month: string, year: string) => {
+    const monthIndex = parseInt(month) - 1;
+    const yearValue = parseInt(year);
+
+    const lastDay = new Date(yearValue, monthIndex + 1, 0).getDate();
+
+    return new Date(yearValue, monthIndex, lastDay, 23, 59, 59);
+  };
 
   const handleMonthChange = (newMonth: string) => {
     setSelectedMonth(newMonth);
     if (selectedYear) {
-      onChange(`${selectedYear}-${newMonth}`);
+      const expiryDate = createDateFromMonthYear(newMonth, selectedYear);
+      onChange(expiryDate);
     }
   };
 
   const handleYearChange = (newYear: string) => {
     setSelectedYear(newYear);
     if (selectedMonth) {
-      onChange(`${newYear}-${selectedMonth}`);
+      const expiryDate = createDateFromMonthYear(selectedMonth, newYear);
+      onChange(expiryDate);
     }
   };
 
