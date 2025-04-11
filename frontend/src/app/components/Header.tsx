@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
 import CoffeeIcon from "../assets/CoffeeIcon";
 import {
@@ -5,8 +7,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    router.push("/");
+  };
   return (
     <div className="w-screen h-[60px] flex justify-center cursor-default  px-4 py-2">
       <div className="max-w-7xl h-full w-full  flex justify-between items-center">
@@ -22,7 +30,10 @@ const Header = () => {
               <ChevronDown className="w-4 h-4" />
             </PopoverTrigger>
             <PopoverContent className="w-32 flex items-center justify-center">
-              <button className="border py-1 px-2 rounded-sm cursor-pointer">
+              <button
+                className="border py-1 px-2 rounded-sm cursor-pointer"
+                onClick={handleSignOut}
+              >
                 Log out
               </button>
             </PopoverContent>

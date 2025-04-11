@@ -19,8 +19,7 @@ const FirstStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
       validationSchema={SignupSchema}
       onSubmit={(values) => {
         setStep(2);
-        localStorage.setItem("user", JSON.stringify(values));
-        console.log(values);
+        localStorage.setItem("username", JSON.stringify(values.userName));
       }}
     >
       {({ errors }) => (
@@ -31,7 +30,7 @@ const FirstStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
           </div>
           <div>
             <Field
-              placeholder="Enter userName here"
+              placeholder="Enter user name here"
               name="userName"
               className="border rounded-xl p-2 w-full"
             />
