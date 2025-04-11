@@ -5,6 +5,7 @@ import CountrySelection from "@/app/homePage/(settings)/_components/paymentDetai
 import InputField from "@/app/[userId]/components/InputField";
 import ExpiryDateSelector from "@/app/homePage/(settings)/_components/paymentDetail/ExpiryDate";
 import axios from "axios";
+import { useUser } from "@/app/provider/UserProvider";
 
 type BankCardProps = {
   setStep: (step: number) => void;
@@ -23,6 +24,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
   const handleBackButton = () => {
     setStep(1);
   };
+  const { userId } = useUser();
   return (
     <div>
       <Formik<PaymentFormValues>
@@ -44,7 +46,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
 
           try {
             const response = await axios.post(
-              "http://localhost:8000/bankCard",
+              `http://localhost:8000/bankCard/${userId}`,
               formattedValues
             );
             console.log("Bank card created successfuly", response.data);

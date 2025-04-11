@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
 const createBankCard = async (req: Request, res: Response) => {
-  const { country, firstName, lastName, cardNumber, expiryDate, userId } =
-    req.body;
+  const { country, firstName, lastName, cardNumber, expiryDate } = req.body;
+
+  const userId = Number(req.params.userId);
 
   try {
     const newBankCard = await prisma.bankCard.create({

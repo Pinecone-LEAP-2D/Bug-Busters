@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useState, useEffect, createContext, useContext } from "react";
 
 type DecodedToken = {
-  userId: string;
+  userId: number;
   email: string;
   username: string;
 };
@@ -12,7 +12,7 @@ type DecodedToken = {
 type UserContextType = {
   email: string | undefined;
   username: string | undefined;
-  userId: string | undefined;
+  userId: number | undefined;
 };
 
 const getDecodedToken = async (token: string | null) => {
@@ -45,10 +45,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getUser();
   }, []);
-
-  useEffect(() => {
-    console.log("Client state updated:", client);
-  }, [client]);
 
   return (
     <UserContext.Provider
