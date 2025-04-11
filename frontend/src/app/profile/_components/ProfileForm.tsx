@@ -14,7 +14,7 @@ const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESE
 const API_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
 export const ProfileForm = (props: ProfileProps) => {
-  const { step, setStep, userId } = props;
+  const { setStep, userId } = props;
   const [avatarImage, setAvatarImage] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null)
 
