@@ -3,6 +3,7 @@ import CountrySelection from "./CountrySelection";
 import InputField from "../InputField";
 import ExpiryDateSelector from "./ExpiryDate";
 import { useUser } from "@/app/provider/UserProvider";
+import { useBankCard } from "@/app/provider/BankCardProvider";
 type PaymentFormValues = {
   country: string;
   firstName: string;
@@ -13,6 +14,8 @@ type PaymentFormValues = {
 };
 
 const PaymentDetail = () => {
+  const { bankCard } = useBankCard();
+  console.log(bankCard);
   return (
     <Formik<PaymentFormValues>
       initialValues={{
