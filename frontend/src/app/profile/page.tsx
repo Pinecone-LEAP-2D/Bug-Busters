@@ -10,9 +10,7 @@ const CreateProfile = () => {
   return (
     <div className="p-5">
       <div className="flex justify-center items-center h-full">
-        {step === 1 && (
-          <ProfileForm step={step} setStep={setStep} userId={userId} />
-        )}
+        {step === 1 && <ProfileForm setStep={setStep} userId={userId} />}
         {step === 2 && <BankCard setStep={setStep} />}
       </div>
     </div>

@@ -8,10 +8,9 @@ export type ProfileFormik = {
 };
 
 export type ProfileProps = {
-  step: number;
-  setStep: (setStep: number) => void;
-  userId: number;
-};
+    setStep: (setStep: number) => void
+    userId: number
+}
 
 export type CreateProfileParams = {
   name: string;
