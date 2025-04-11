@@ -18,6 +18,7 @@ const createBankCard = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({ msg: `Bank card created`, response: newBankCard });
+    return;
   } catch (error) {
     console.log("Error occured at creating bank card", error);
     res.status(400).send(`Error creating bank card: ${error}`);

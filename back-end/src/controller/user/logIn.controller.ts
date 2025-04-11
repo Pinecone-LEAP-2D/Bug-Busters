@@ -10,6 +10,21 @@ export const logInUser = async (req: Request, res: Response) => {
       where: { email },
     });
 
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    if (user.password !== password) {
+      res.status(401).json({
+        success: false,
+        message: "Incorrect password",
+      });
+      return;
+    }
     const decodePassword = "123";
 
     const token = jwt.sign(
@@ -18,22 +33,6 @@ export const logInUser = async (req: Request, res: Response) => {
       { expiresIn: "2 days" }
     );
 
-    if (!user) {
-      res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    } else if (user.password !== password) {
-      res.status(401).json({
-        success: false,
-        message: "Incorrect password",
-      });
-    } else {
-      res.status(200).json({
-        success: true,
-        message: "Successfully logged in",
-      });
-    }
     res.status(200).json({
       success: true,
       message: "Logged in successfully",

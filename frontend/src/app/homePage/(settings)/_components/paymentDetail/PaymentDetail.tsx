@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import CountrySelection from "./CountrySelection";
 import InputField from "../InputField";
 import ExpiryDateSelector from "./ExpiryDate";
+import { useUser } from "@/app/provider/UserProvider";
 type PaymentFormValues = {
   country: string;
   firstName: string;
