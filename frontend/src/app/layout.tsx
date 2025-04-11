@@ -9,7 +9,6 @@ import { DonationProvider } from "./provider/DonationProvider";
 import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,14 +34,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
-
         <AuthProvider>
           <Header />
           <UserProvider>
-             <DonationProvider> <BankCardProvider>{children}</BankCardProvider></DonationProvider>
+            {" "}
+            <BankCardProvider>
+              {" "}
+              <DonationProvider>{children}</DonationProvider>
+            </BankCardProvider>
           </UserProvider>
         </AuthProvider>
-
       </body>
     </html>
   );

@@ -8,21 +8,43 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect, useState } from "react";
+import { useDonation } from "@/app/provider/DonationProvider";
+import { useUser } from "@/app/provider/UserProvider";
+import axios from "axios";
 
 const UserInformation = () => {
+  // const { getTotalEarning } = useDonation();
+  const { email, username, userId } = useUser();
+  const [donations, setDonations] = useState([]);
+
+  const getTotalEarning = async () => {
+    const { userId, email } = useUser();
+    console.log(email, "hu");
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/donation/total-earning/${userId}`
+    );
+    console.log(response);
+    return response.data;
+  };
+  useEffect(() => {
+    getTotalEarning();
+    // fetchData();
+  }, []);
   return (
     <div className="w-full h-auto p-6 border border-[#E4E4E7] rounded-lg ">
       <div className="flex justify-between pb-6">
         <div className="flex gap-2 cursor-default">
           <div className="w-12 h-12 bg-gray-400 rounded-full"></div>
           <div className="text-black">
-            <h1 className="font-semibold ">User name</h1>
-            <p className="text-[14px]">
-              User url buymeacoffee.com/baconpancakes1
-            </p>
+            <h1 className="font-semibold ">{username}</h1>
+            <p className="text-[14px]">buymeacoffee.com/{email}</p>
           </div>
         </div>
-        <button className="text-white cursor-pointer bg-black flex py-2 px-4 items-center justify-center gap-2 rounded-lg">
+        <button
+          className="text-white cursor-pointer bg-black flex py-2 px-4 items-center justify-center gap-2 rounded-lg"
+          // onClick={fetchData}
+        >
           <ShareLinkIcon />
           <p>Share page link</p>
         </button>

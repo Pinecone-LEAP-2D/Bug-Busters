@@ -1,10 +1,9 @@
 "use client";
 import axios, { AxiosResponse } from "axios";
 import { useState, createContext, useContext, useEffect } from "react";
-// import { getProfile } from "../../../../back-end/src/controller/profile/getProfile.controller";
 
 type donationContextType = {
-  getDonation: () => Promise<AxiosResponse<any, any>>;
+  getDonation: () => Promise<AxiosResponse<any>>;
 };
 
 const DonationContext = createContext<donationContextType>(
@@ -15,8 +14,9 @@ export const getDonation = async () => {
     `${process.env.NEXT_PUBLIC_BASE_URL}/donation`
   );
   //   console.log(response);
-  return response.data.data;
+  return response.data;
 };
+
 export const DonationProvider = ({
   children,
 }: {

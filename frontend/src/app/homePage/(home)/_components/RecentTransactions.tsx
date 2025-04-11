@@ -1,5 +1,4 @@
 "use client";
-import SocialMediaUrl from "@/app/[userId]/components/SocialMediaUrl";
 import { useDonation } from "@/app/provider/DonationProvider";
 import {
   Select,
@@ -9,16 +8,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
-import createBankCard from "../../../../../../back-end/src/controller/bankCard/createBankCard.controller";
 
 const RecentTransactions = () => {
   const { getDonation } = useDonation();
-  const [donations, setDonations] = useState();
+  const [donations, setDonations] = useState([]);
 
   const fetchData = async () => {
     const res = await getDonation();
     console.log("donation data", res);
-    setDonations(res);
+    setDonations(res.data);
   };
 
   useEffect(() => {
