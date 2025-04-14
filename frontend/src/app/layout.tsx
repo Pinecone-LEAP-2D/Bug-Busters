@@ -5,10 +5,9 @@ import Header from "./components/Header";
 import { UserProvider } from "./provider/UserProvider";
 
 import { DonationProvider } from "./provider/DonationProvider";
-
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,14 +34,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
-
         <AuthProvider>
-          <Header />
-          <UserProvider>
-             <DonationProvider> <BankCardProvider>{children}</BankCardProvider></DonationProvider>
-          </UserProvider>
+          <NuqsAdapter>
+            <Header />
+            <UserProvider>
+              <BankCardProvider>
+                <DonationProvider>{children}</DonationProvider>
+              </BankCardProvider>
+            </UserProvider>
+          </NuqsAdapter>
         </AuthProvider>
-
       </body>
     </html>
   );
