@@ -3,9 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "./provider/UserProvider";
 import { DonationProvider } from "./provider/DonationProvider";
+import { ToastContainer } from "react-toastify";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
-import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,15 +33,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
-        <ToastContainer />
+       <ToastContainer />
         <AuthProvider>
+         <NuqsAdapter>
           <UserProvider>
+             <BankCardProvider>
             <DonationProvider>
               {" "}
-              <BankCardProvider>{children}</BankCardProvider>
+             {children}
             </DonationProvider>
+               </BankCardProvider>
           </UserProvider>
-        </AuthProvider>
+         </NuqsAdapter>
+          </AuthProvider>
       </body>
     </html>
   );

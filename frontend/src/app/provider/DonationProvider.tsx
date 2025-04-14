@@ -1,35 +1,71 @@
 "use client";
 import axios, { AxiosResponse } from "axios";
-import { useState, createContext, useContext, useEffect } from "react";
-// import { getProfile } from "../../../../back-end/src/controller/profile/getProfile.controller";
+import { parseAsFloat, useQueryState } from "nuqs";
+import {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { useUser } from "./UserProvider";
+import { Donation } from "@/type";
 
 type donationContextType = {
-  getDonation: () => Promise<AxiosResponse<any, any>>;
+  days: number;
+  totalEarning: number;
+  donations: Donation[];
+  amount: number;
 };
 
 const DonationContext = createContext<donationContextType>(
   {} as donationContextType
 );
-export const getDonation = async () => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/donation`
-  );
-  //   console.log(response);
-  return response.data.data;
-};
+
 export const DonationProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [donation, setDonation] = useState<donationContextType>(
-    {} as donationContextType
-  );
+  const { userId } = useUser();
+  const [days] = useQueryState("days", parseAsFloat.withDefault(0));
+  const [amount] = useQueryState("amount", parseAsFloat.withDefault(0));
+  const [totalEarning, setTotalEarning] = useState(0);
+  console.log(days, amount, "hohohoho");
 
-  useEffect(() => {}, []);
+  const getTotalEarning = async () => {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/donation/total-earning/${userId}`
+    );
+    setTotalEarning(data.totalEarnings);
+  };
+  const [donations, setDonations] = useState<Donation[]>([]);
+
+  const getDonation = async () => {
+    console.log(days);
+    try {
+      const queryParams = new URLSearchParams();
+      if (amount !== 0) queryParams.append("amount", amount.toString());
+      if (days !== 0) queryParams.append("days", days.toString());
+
+      const queryString = queryParams.toString();
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/donation/search/${userId}?${queryString}`
+      );
+      console.log("Filtered Donations:", response.data.donations);
+      setDonations(response.data.donations);
+    } catch (err) {
+      console.error("Error fetching donations:", err);
+    }
+  };
+  useEffect(() => {
+    getTotalEarning();
+    getDonation();
+  }, [days, amount]);
 
   return (
-    <DonationContext.Provider value={{ getDonation: getDonation }}>
+    <DonationContext.Provider value={{ days, totalEarning, donations, amount }}>
       {children}
     </DonationContext.Provider>
   );
