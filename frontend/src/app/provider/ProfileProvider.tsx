@@ -2,8 +2,9 @@
 
 import { createContext, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ProfileContextType } from "@/type";
+import { ProfileContextType, ProfileType } from "@/type";
 import { getProfile } from "@/utils/profileRequest";
+import { useUser } from "./UserProvider";
 
 const ProfileContext = createContext<ProfileContextType>(
   {} as ProfileContextType
@@ -14,9 +15,11 @@ export const ProfileProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const { userId } = useUser();
+
   const fetchProfile = async () => {
-    const profileData = await getProfile();
-    return profileData;
+    const { data } = await getProfile(userId as number);
+    return data;
   };
 
   const {
@@ -25,11 +28,11 @@ export const ProfileProvider = ({
     isLoading,
     isError,
     refetch,
-  } = useQuery({ queryKey: ["profile"], queryFn: fetchProfile });
+  } = useQuery<ProfileType>({ queryKey: ["profile"], queryFn: fetchProfile });
 
   return (
     <ProfileContext.Provider
-      value={{ profile: profile, refetch: refetch, isLoading }}
+      value={{ profile, refetch: refetch, isLoading }}
     >
       {children}
     </ProfileContext.Provider>

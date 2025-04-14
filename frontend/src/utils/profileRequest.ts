@@ -5,8 +5,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const instance = axios.create({ baseURL: BASE_URL });
 
-export const getProfile = async () => {
-    const { data } = await instance.get(`/profile`);
+export const getProfile = async (userId: number) => {
+    const { data } = await instance.get(`/profile?userId=${userId}`);
     return data
 }
 
