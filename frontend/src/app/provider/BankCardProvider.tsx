@@ -5,9 +5,24 @@ import { useUser } from "./UserProvider";
 import { getBankCardById } from "@/utils/axios";
 import { createContext, useContext, useEffect } from "react";
 
-const BankCardContext = createContext({
-  bankCard: [],
-});
+type BankCard = {
+  id: number;
+  country: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvc: string;
+};
+
+type BankCardContextType = {
+  bankCard: BankCard[];
+  getData: () => Promise<void>;
+};
+
+const BankCardContext = createContext<BankCardContextType>(
+  {} as BankCardContextType
+);
 
 export const BankCardProvider = ({
   children,
@@ -16,14 +31,15 @@ export const BankCardProvider = ({
 }) => {
   const { userId } = useUser();
   const [bankCard, setBankCard] = useState([]);
+
   const getData = async () => {
     try {
       let response;
       if (userId) {
         response = await getBankCardById(userId);
       }
-      setBankCard(response.response);
-      console.log("user bank card", response.response);
+      console.log("API response:", response);
+      setBankCard(response.response || []);
     } catch (error) {
       console.error("Error getting user bank card detail", error);
     }
@@ -36,6 +52,7 @@ export const BankCardProvider = ({
     <BankCardContext.Provider
       value={{
         bankCard,
+        getData,
       }}
     >
       {children}

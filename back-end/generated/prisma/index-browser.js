@@ -135,7 +135,8 @@ exports.Prisma.BankCardScalarFieldEnum = {
   expiryDate: 'expiryDate',
   userId: 'userId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  cvc: 'cvc'
 };
 
 exports.Prisma.ProfileScalarFieldEnum = {

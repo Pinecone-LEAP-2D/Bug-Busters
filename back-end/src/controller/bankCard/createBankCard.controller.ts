@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
 const createBankCard = async (req: Request, res: Response) => {
-  const { country, firstName, lastName, cardNumber, expiryDate } = req.body;
+  const { country, firstName, lastName, cardNumber, expiryDate, cvc } =
+    req.body;
 
   const userId = Number(req.params.userId);
 
@@ -15,6 +16,7 @@ const createBankCard = async (req: Request, res: Response) => {
         cardNumber: cardNumber,
         expiryDate: expiryDate,
         userId: userId,
+        cvc: cvc,
       },
     });
 

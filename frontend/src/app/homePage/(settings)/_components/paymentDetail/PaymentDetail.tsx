@@ -2,8 +2,11 @@ import { Formik } from "formik";
 import CountrySelection from "./CountrySelection";
 import InputField from "../InputField";
 import ExpiryDateSelector from "./ExpiryDate";
-import { useUser } from "@/app/provider/UserProvider";
 import { useBankCard } from "@/app/provider/BankCardProvider";
+import axios from "axios";
+import { useUser } from "@/app/provider/UserProvider";
+import { toast } from "react-toastify";
+
 type PaymentFormValues = {
   country: string;
   firstName: string;
@@ -14,23 +17,44 @@ type PaymentFormValues = {
 };
 
 const PaymentDetail = () => {
-  const { bankCard } = useBankCard();
-  console.log(bankCard);
+  const { bankCard, getData } = useBankCard();
+  const card = bankCard[0];
+  const { userId } = useUser();
+
   return (
     <Formik<PaymentFormValues>
       initialValues={{
-        country: "",
-        firstName: "",
-        lastName: "",
-        cardNumber: "",
-        expiryDate: null,
-        cvc: "",
+        country: card?.country ?? "",
+        firstName: card?.firstName ?? "",
+        lastName: card?.lastName ?? "",
+        cardNumber: card?.cardNumber ?? "",
+        expiryDate: card?.expiryDate ? new Date(card.expiryDate) : null,
+        cvc: card?.cvc ?? "",
       }}
-      onSubmit={(values) => {
+      onSubmit={async (values) => {
         const formattedValues = {
           ...values,
           expiryDate: values.expiryDate ? values.expiryDate.toISOString() : "",
         };
+        try {
+          const response = await axios.put(
+            `http://localhost:8000/bankCard/${userId}`,
+            formattedValues
+          );
+          getData();
+          toast.success(
+            "✅ Your bank card details have been updated successfully!",
+            {
+              position: "top-right",
+              autoClose: 5000,
+            }
+          );
+          console.log("Bank card updated successfuly", response.data);
+          return response.data;
+        } catch (error) {
+          console.log("error in updating bank card from front end", error);
+        }
+        console.log("payment detail created", formattedValues);
 
         console.log("payment detail", formattedValues);
       }}
@@ -58,6 +82,7 @@ const PaymentDetail = () => {
                 />
               </div>
               <InputField
+                type="password"
                 label="Enter card number"
                 value={values.cardNumber}
                 onChange={(value) => setFieldValue("cardNumber", value)}
@@ -70,6 +95,7 @@ const PaymentDetail = () => {
               />
               <div className="w-1/2">
                 <InputField
+                  type="password"
                   label="Cvc"
                   value={values.cvc}
                   onChange={(value) => setFieldValue("cvc", value)}

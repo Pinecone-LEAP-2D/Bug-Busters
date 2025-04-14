@@ -3,8 +3,8 @@ import prisma from "../../prismaClient";
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    // const id = Number(req.params.id);
-    const { id, password } = req.body;
+    const { password } = req.body;
+    const id = Number(req.params.id);
 
     if (!id || !password) {
       res.status(400).json({
@@ -13,10 +13,11 @@ export const updateUser = async (req: Request, res: Response) => {
       });
     } else {
       const result = await prisma.user.update({
-        where: { id },
-        data: { password },
+        where: {
+          id: id,
+        },
+        data: { password: password },
       });
-
       res.status(200).json({
         success: true,
         message: "Successfully updated password",

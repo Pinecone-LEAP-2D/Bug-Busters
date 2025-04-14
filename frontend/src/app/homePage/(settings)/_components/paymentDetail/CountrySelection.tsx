@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/select";
 import { formattedCountries } from "../../../_utils/countries";
 import { date } from "yup";
+import { useBankCard } from "@/app/provider/BankCardProvider";
 
 const CountrySelection = ({
   value,
@@ -15,12 +16,14 @@ const CountrySelection = ({
   value: string;
   onChange: (value: string) => void;
 }) => {
+  const { bankCard } = useBankCard();
+  const country = bankCard[0].country;
   return (
     <div className="flex flex-col gap-2">
       <p className="text-[14px] font-semibold">Select Country</p>
-      <Select value={value} onValueChange={onChange}>
+      <Select onValueChange={onChange}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select a country" />
+          <SelectValue placeholder={country} />
         </SelectTrigger>
         <SelectContent>
           {formattedCountries.map((country) => (

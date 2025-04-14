@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
 import { UserProvider } from "./provider/UserProvider";
-
 import { DonationProvider } from "./provider/DonationProvider";
+import { ToastContainer } from "react-toastify";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
@@ -34,16 +33,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
+       <ToastContainer />
         <AuthProvider>
-          <NuqsAdapter>
-            <Header />
-            <UserProvider>
-              <BankCardProvider>
-                <DonationProvider>{children}</DonationProvider>
-              </BankCardProvider>
-            </UserProvider>
-          </NuqsAdapter>
-        </AuthProvider>
+         <NuqsAdapter>
+          <UserProvider>
+             <BankCardProvider>
+            <DonationProvider>
+              {" "}
+             {children}
+            </DonationProvider>
+               </BankCardProvider>
+          </UserProvider>
+         </NuqsAdapter>
+          </AuthProvider>
       </body>
     </html>
   );
