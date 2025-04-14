@@ -41,3 +41,7 @@ export type Donation = {
   updatedAt: Date;
   SocialMediaUrl: string;
 };
+
+export type ProfileContextType = {
+    
+}
