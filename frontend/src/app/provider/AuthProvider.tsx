@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useJwt } from "react-jwt";
 
@@ -11,8 +11,9 @@ type DecodedToken = {
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const [token] = useState(() =>
+    typeof window !== "undefined" ? localStorage.getItem("token") : null
+  );
   const { decodedToken, isExpired } = useJwt<DecodedToken>(token || "");
 
   useEffect(() => {

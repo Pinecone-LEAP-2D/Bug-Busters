@@ -9,5 +9,5 @@ export const userRouter = express.Router();
 
 userRouter.get("/", getUser);
 userRouter.post("/sign-up", validateEmailAndPassword, createUser);
-userRouter.put("/update/:id", updateUser);
+userRouter.put("/:id", updateUser);
 userRouter.post("/logIn", logInUser);

@@ -8,12 +8,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const router = useRouter();
   const handleSignOut = () => {
     localStorage.removeItem("token");
     router.push("/");
+    toast.success("👋 You’ve been logged out. See you soon!", {
+      position: "top-right",
+      autoClose: 5000,
+    });
   };
   return (
     <div className="w-screen h-[60px] flex justify-center cursor-default  px-4 py-2">

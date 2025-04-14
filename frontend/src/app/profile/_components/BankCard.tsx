@@ -6,6 +6,8 @@ import InputField from "@/app/[userId]/components/InputField";
 import ExpiryDateSelector from "@/app/homePage/(settings)/_components/paymentDetail/ExpiryDate";
 import axios from "axios";
 import { useUser } from "@/app/provider/UserProvider";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 type BankCardProps = {
   setStep: (step: number) => void;
@@ -19,6 +21,23 @@ type PaymentFormValues = {
   expiryDate: Date | null;
   cvc: string;
 };
+
+const validationSchema = Yup.object({
+  country: Yup.string().required("Country is required."),
+  firstName: Yup.string()
+    .required("First name is required.")
+    .min(2, "First name must be at least 2 characters."),
+  lastName: Yup.string()
+    .required("Last name is required.")
+    .min(2, "Last name must be at least 2 characters."),
+  cardNumber: Yup.string()
+    .required("Card number is required.")
+    .matches(/^[0-9]{16}$/, "Card number must be 16 digits."),
+  expiryDate: Yup.date().required("Expiry date is required.").nullable(),
+  cvc: Yup.string()
+    .required("CVC is required.")
+    .matches(/^[0-9]{3}$/, "CVC must be 3 digits."),
+});
 
 const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
   const handleBackButton = () => {
@@ -36,6 +55,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
           expiryDate: null,
           cvc: "",
         }}
+        validationSchema={validationSchema}
         onSubmit={async (values) => {
           const formattedValues = {
             ...values,
@@ -50,6 +70,10 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
               formattedValues
             );
             console.log("Bank card created successfuly", response.data);
+            toast.success("✅ Profile creation complete — you’re all set!", {
+              position: "top-right",
+              autoClose: 5000,
+            });
             return response.data;
           } catch (error) {
             console.log("error in creating bank card from front end", error);
@@ -57,7 +81,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
           console.log("payment detail created", formattedValues);
         }}
       >
-        {({ values, handleSubmit, setFieldValue }) => (
+        {({ values, handleSubmit, setFieldValue, errors, touched }) => (
           <form onSubmit={handleSubmit}>
             <div className="w-full p-6 h-auto border cursor-default rounded-lg flex flex-col gap-4">
               <h1 className="font-semibold">Payment details</h1>
@@ -66,44 +90,85 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
                   value={values.country}
                   onChange={(value) => setFieldValue("country", value)}
                 />
-                <div className="flex gap-4">
-                  <InputField
-                    label="First name"
-                    value={values.firstName}
-                    onChange={(value) => setFieldValue("firstName", value)}
-                  />
+                {errors.country && touched.country && (
+                  <div className="text-[12px] text-red-500">
+                    {errors.country}
+                  </div>
+                )}
 
-                  <InputField
-                    label="Last name"
-                    value={values.lastName}
-                    onChange={(value) => setFieldValue("lastName", value)}
-                  />
+                <div className="flex gap-4">
+                  <div>
+                    <InputField
+                      label="First name"
+                      value={values.firstName}
+                      onChange={(value) => setFieldValue("firstName", value)}
+                    />
+                    {errors.firstName && touched.firstName && (
+                      <div className="text-[12px] text-red-500">
+                        {errors.firstName}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <InputField
+                      label="Last name"
+                      value={values.lastName}
+                      onChange={(value) => setFieldValue("lastName", value)}
+                    />
+                    {errors.lastName && touched.lastName && (
+                      <div className="text-[12px] text-red-500">
+                        {errors.lastName}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <InputField
+                  type="cardNumber"
                   label="Enter card number"
                   value={values.cardNumber}
                   onChange={(value) => setFieldValue("cardNumber", value)}
                 />
+                {errors.cardNumber && touched.cardNumber && (
+                  <div className="text-[12px] text-red-500">
+                    {errors.cardNumber}
+                  </div>
+                )}
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex gap-4">
                 <ExpiryDateSelector
                   value={values.expiryDate}
                   onChange={(value) => setFieldValue("expiryDate", value)}
                 />
-                <div className="w-1/2">
+                {errors.expiryDate && touched.expiryDate && (
+                  <div className="text-[14px] text-red-500">
+                    {errors.expiryDate}
+                  </div>
+                )}
+                <div className="w-1/2 h-auto">
                   <InputField
                     label="Cvc"
                     value={values.cvc}
                     onChange={(value) => setFieldValue("cvc", value)}
                   />
+                  {errors.cvc && touched.cvc && (
+                    <div className="text-[12px] text-red-500">{errors.cvc}</div>
+                  )}
                 </div>
               </div>
-              <button
-                type="submit"
-                className="w-full h-auto cursor-pointer text-[14px] x-4 py-2 flex items-center justify-center bg-black rounded-sm text-white"
-              >
-                Save changes
-              </button>
+              <div className="w-full h-auto flex justify-between">
+                <button
+                  className="cursor-pointer w-1/3 text-[12px] x-4 py-2 flex items-center justify-center bg-black rounded-sm text-white"
+                  onClick={handleBackButton}
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="cursor-pointer w-1/3 text-[12px] x-4 py-2 flex items-center justify-center bg-black rounded-sm text-white"
+                >
+                  Save changes
+                </button>
+              </div>
             </div>
           </form>
         )}

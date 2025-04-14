@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
 import { UserProvider } from "./provider/UserProvider";
-
 import { DonationProvider } from "./provider/DonationProvider";
-
 import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
-
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,14 +32,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
-
+        <ToastContainer />
         <AuthProvider>
-          <Header />
           <UserProvider>
-             <DonationProvider> <BankCardProvider>{children}</BankCardProvider></DonationProvider>
+            <DonationProvider>
+              {" "}
+              <BankCardProvider>{children}</BankCardProvider>
+            </DonationProvider>
           </UserProvider>
         </AuthProvider>
-
       </body>
     </html>
   );

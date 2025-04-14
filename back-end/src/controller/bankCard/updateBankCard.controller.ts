@@ -3,7 +3,8 @@ import prisma from "../../prismaClient";
 
 const updateBankCard = async (req: Request, res: Response) => {
   try {
-    const { country, firstName, lastName, cardNumber, expiryDate } = req.body;
+    const { country, firstName, lastName, cardNumber, expiryDate, cvc } =
+      req.body;
     const userId = Number(req.params.userId);
 
     const updatedBankCard = await prisma.bankCard.updateMany({
@@ -16,14 +17,13 @@ const updateBankCard = async (req: Request, res: Response) => {
         lastName: lastName,
         cardNumber: cardNumber,
         expiryDate: expiryDate,
+        cvc: cvc,
       },
     });
-    res
-      .status(201)
-      .json({
-        msg: `Bank card updated successfuly`,
-        response: updatedBankCard,
-      });
+    res.status(201).json({
+      msg: `Bank card updated successfuly`,
+      response: updatedBankCard,
+    });
     return;
   } catch (error) {
     console.log("Error occured at updating bank card", error);

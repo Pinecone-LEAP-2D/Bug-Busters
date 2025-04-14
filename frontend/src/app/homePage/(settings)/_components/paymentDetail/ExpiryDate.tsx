@@ -6,28 +6,49 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useBankCard } from "@/app/provider/BankCardProvider";
 
 type ExpiryDateProps = {
-  value: Date | null;
+  value: Date | string | null;
   onChange: (value: Date) => void;
 };
 
 const ExpiryDateSelector = ({ value, onChange }: ExpiryDateProps) => {
+  const { bankCard } = useBankCard();
+  const card = bankCard[0].expiryDate;
+  const year = card.slice(0, 4);
+  const month = card.slice(5, 7);
   const months = Array.from({ length: 12 }, (_, i) =>
     String(i + 1).padStart(2, "0")
   );
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 12 }, (_, i) => String(currentYear + i));
 
-  const [selectedMonth, setSelectedMonth] = useState<string>("");
-  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    month ? month : ""
+  );
+  const [selectedYear, setSelectedYear] = useState<string>(year ? year : "");
 
   useEffect(() => {
-    if (value && value instanceof Date) {
-      const month = String(value.getMonth() + 1).padStart(2, "0");
-      const year = String(value.getFullYear());
-      setSelectedMonth(month);
-      setSelectedYear(year);
+    if (value) {
+      let dateValue: Date;
+
+      if (value instanceof Date) {
+        dateValue = value;
+      } else if (typeof value === "string") {
+        dateValue = new Date(value);
+      } else {
+        return;
+      }
+
+      if (!isNaN(dateValue.getTime())) {
+        const month = String(dateValue.getMonth() + 1).padStart(2, "0");
+        const year = String(dateValue.getFullYear());
+
+        setSelectedMonth(month);
+        setSelectedYear(year);
+      } else {
+      }
     }
   }, [value]);
 

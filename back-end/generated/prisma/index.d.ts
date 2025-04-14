@@ -2404,6 +2404,7 @@ export namespace Prisma {
     userId: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    cvc: string | null
   }
 
   export type BankCardMaxAggregateOutputType = {
@@ -2416,6 +2417,7 @@ export namespace Prisma {
     userId: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    cvc: string | null
   }
 
   export type BankCardCountAggregateOutputType = {
@@ -2428,6 +2430,7 @@ export namespace Prisma {
     userId: number
     createdAt: number
     updatedAt: number
+    cvc: number
     _all: number
   }
 
@@ -2452,6 +2455,7 @@ export namespace Prisma {
     userId?: true
     createdAt?: true
     updatedAt?: true
+    cvc?: true
   }
 
   export type BankCardMaxAggregateInputType = {
@@ -2464,6 +2468,7 @@ export namespace Prisma {
     userId?: true
     createdAt?: true
     updatedAt?: true
+    cvc?: true
   }
 
   export type BankCardCountAggregateInputType = {
@@ -2476,6 +2481,7 @@ export namespace Prisma {
     userId?: true
     createdAt?: true
     updatedAt?: true
+    cvc?: true
     _all?: true
   }
 
@@ -2575,6 +2581,7 @@ export namespace Prisma {
     userId: number
     createdAt: Date
     updatedAt: Date
+    cvc: string
     _count: BankCardCountAggregateOutputType | null
     _avg: BankCardAvgAggregateOutputType | null
     _sum: BankCardSumAggregateOutputType | null
@@ -2606,6 +2613,7 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    cvc?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankCard"]>
 
@@ -2619,6 +2627,7 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    cvc?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankCard"]>
 
@@ -2632,6 +2641,7 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    cvc?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankCard"]>
 
@@ -2645,9 +2655,10 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    cvc?: boolean
   }
 
-  export type BankCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "country" | "firstName" | "lastName" | "cardNumber" | "expiryDate" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["bankCard"]>
+  export type BankCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "country" | "firstName" | "lastName" | "cardNumber" | "expiryDate" | "userId" | "createdAt" | "updatedAt" | "cvc", ExtArgs["result"]["bankCard"]>
   export type BankCardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2673,6 +2684,7 @@ export namespace Prisma {
       userId: number
       createdAt: Date
       updatedAt: Date
+      cvc: string
     }, ExtArgs["result"]["bankCard"]>
     composites: {}
   }
@@ -3106,6 +3118,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"BankCard", 'Int'>
     readonly createdAt: FieldRef<"BankCard", 'DateTime'>
     readonly updatedAt: FieldRef<"BankCard", 'DateTime'>
+    readonly cvc: FieldRef<"BankCard", 'String'>
   }
     
 
@@ -5867,7 +5880,8 @@ export namespace Prisma {
     expiryDate: 'expiryDate',
     userId: 'userId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    cvc: 'cvc'
   };
 
   export type BankCardScalarFieldEnum = (typeof BankCardScalarFieldEnum)[keyof typeof BankCardScalarFieldEnum]
@@ -6075,6 +6089,7 @@ export namespace Prisma {
     userId?: IntFilter<"BankCard"> | number
     createdAt?: DateTimeFilter<"BankCard"> | Date | string
     updatedAt?: DateTimeFilter<"BankCard"> | Date | string
+    cvc?: StringFilter<"BankCard"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -6088,6 +6103,7 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    cvc?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -6104,6 +6120,7 @@ export namespace Prisma {
     expiryDate?: DateTimeFilter<"BankCard"> | Date | string
     createdAt?: DateTimeFilter<"BankCard"> | Date | string
     updatedAt?: DateTimeFilter<"BankCard"> | Date | string
+    cvc?: StringFilter<"BankCard"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -6117,6 +6134,7 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    cvc?: SortOrder
     _count?: BankCardCountOrderByAggregateInput
     _avg?: BankCardAvgOrderByAggregateInput
     _max?: BankCardMaxOrderByAggregateInput
@@ -6137,6 +6155,7 @@ export namespace Prisma {
     userId?: IntWithAggregatesFilter<"BankCard"> | number
     createdAt?: DateTimeWithAggregatesFilter<"BankCard"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BankCard"> | Date | string
+    cvc?: StringWithAggregatesFilter<"BankCard"> | string
   }
 
   export type ProfileWhereInput = {
@@ -6380,6 +6399,7 @@ export namespace Prisma {
     expiryDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    cvc?: string
     user: UserCreateNestedOneWithoutBankCardInput
   }
 
@@ -6393,6 +6413,7 @@ export namespace Prisma {
     userId: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    cvc?: string
   }
 
   export type BankCardUpdateInput = {
@@ -6403,6 +6424,7 @@ export namespace Prisma {
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cvc?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutBankCardNestedInput
   }
 
@@ -6416,6 +6438,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cvc?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankCardCreateManyInput = {
@@ -6428,6 +6451,7 @@ export namespace Prisma {
     userId: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    cvc?: string
   }
 
   export type BankCardUpdateManyMutationInput = {
@@ -6438,6 +6462,7 @@ export namespace Prisma {
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cvc?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankCardUncheckedUpdateManyInput = {
@@ -6450,6 +6475,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cvc?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProfileCreateInput = {
@@ -6804,6 +6830,7 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    cvc?: SortOrder
   }
 
   export type BankCardAvgOrderByAggregateInput = {
@@ -6821,6 +6848,7 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    cvc?: SortOrder
   }
 
   export type BankCardMinOrderByAggregateInput = {
@@ -6833,6 +6861,7 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    cvc?: SortOrder
   }
 
   export type BankCardSumOrderByAggregateInput = {
@@ -7332,6 +7361,7 @@ export namespace Prisma {
     expiryDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    cvc?: string
   }
 
   export type BankCardUncheckedCreateWithoutUserInput = {
@@ -7343,6 +7373,7 @@ export namespace Prisma {
     expiryDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    cvc?: string
   }
 
   export type BankCardCreateOrConnectWithoutUserInput = {
@@ -7461,6 +7492,7 @@ export namespace Prisma {
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cvc?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankCardUncheckedUpdateWithoutUserInput = {
@@ -7472,6 +7504,7 @@ export namespace Prisma {
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cvc?: StringFieldUpdateOperationsInput | string
   }
 
   export type DonationUpsertWithWhereUniqueWithoutRecipientInput = {

@@ -13,6 +13,7 @@ type UserContextType = {
   email: string | undefined;
   username: string | undefined;
   userId: number | undefined;
+  getUser: () => Promise<void>;
 };
 
 const getDecodedToken = async (token: string | null) => {
@@ -32,6 +33,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [client, setClient] = useState<DecodedToken | null>(null);
   const [loading, setLoading] = useState(true);
+  console.log(client);
 
   const getUser = async () => {
     const storedToken = localStorage.getItem("token");
@@ -52,6 +54,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         email: client?.email,
         userId: client?.userId,
         username: client?.username,
+        getUser,
       }}
     >
       {loading ? <p>...Loading user context</p> : children}
