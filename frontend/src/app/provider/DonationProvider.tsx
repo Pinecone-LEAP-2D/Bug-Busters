@@ -35,6 +35,7 @@ export const DonationProvider = ({
   console.log(days, amount, "hohohoho");
 
   const getTotalEarning = async () => {
+    if (!userId) return;
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/donation/total-earning/${userId}`
     );
@@ -43,6 +44,8 @@ export const DonationProvider = ({
   const [donations, setDonations] = useState<Donation[]>([]);
 
   const getDonation = async () => {
+    if (!userId) return;
+
     console.log(days);
     try {
       const queryParams = new URLSearchParams();
@@ -60,9 +63,11 @@ export const DonationProvider = ({
     }
   };
   useEffect(() => {
-    getTotalEarning();
-    getDonation();
-  }, [days, amount]);
+    if (userId) {
+      getTotalEarning();
+      getDonation();
+    }
+  }, [days, amount, userId]);
 
   return (
     <DonationContext.Provider value={{ days, totalEarning, donations, amount }}>

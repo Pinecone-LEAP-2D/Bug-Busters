@@ -9,8 +9,11 @@ import {
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useUser } from "../provider/UserProvider";
+import { useEffect } from "react";
 
 const Header = () => {
+  const { username, getUser } = useUser();
   const router = useRouter();
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -20,6 +23,10 @@ const Header = () => {
       autoClose: 5000,
     });
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <div className="w-screen h-[60px] flex justify-center cursor-default  px-4 py-2">
       <div className="max-w-7xl h-full w-full  flex justify-between items-center">
@@ -29,7 +36,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <p className="text-[14px]">User name</p>
+          <p className="text-[14px] font-semibold">{username}</p>
           <Popover>
             <PopoverTrigger className="cursor-pointer">
               <ChevronDown className="w-4 h-4" />
