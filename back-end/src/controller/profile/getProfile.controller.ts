@@ -2,11 +2,19 @@ import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
 export const getProfile = async (req: Request, res: Response) => {
-  const userId = Number(req.query.userId)
+  const userId = Number(req.query.userId);
   try {
-    const result = await prisma.profile.findUnique({
-      where: { userId },
-    });;
+    const result = await prisma.profile.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    if (result.length === 0) {
+      res.status(404).json({ msg: "No profiles found for this user" });
+      return;
+    }
+
     res.status(200).json({
       success: true,
       message: `Profile found`,

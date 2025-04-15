@@ -35,8 +35,6 @@ export const DonationProvider = ({
   const [totalEarning, setTotalEarning] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  console.log(days, amount, "hohohoho");
-
   const getTotalEarning = async () => {
     if (!userId) return;
     const { data } = await axios.get(
@@ -49,8 +47,6 @@ export const DonationProvider = ({
 
   const getDonation = async () => {
     if (!userId) return;
-
-    console.log(days);
     try {
       const queryParams = new URLSearchParams();
       if (amount !== 0) queryParams.append("amount", amount.toString());
@@ -60,7 +56,7 @@ export const DonationProvider = ({
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/donation/search/${userId}?${queryString}`
       );
-      console.log("Filtered Donations:", response.data.donations);
+      // console.log("Filtered Donations:", response.data.donations);
       setDonations(response.data.donations);
       setLoading(false);
     } catch (err) {
@@ -76,7 +72,7 @@ export const DonationProvider = ({
 
   return (
     <DonationContext.Provider value={{ days, totalEarning, donations, amount }}>
-      {loading ? <Loading loadingBoolean={true} /> : children}
+      {children}
     </DonationContext.Provider>
   );
 };

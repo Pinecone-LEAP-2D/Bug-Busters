@@ -4,15 +4,14 @@ export type ProfileFormik = {
   name: string;
   about: string;
   socialMediaURL: string;
-  userId: number | undefined
+  userId: number | undefined;
   backgroundImage: string;
   successMessage: string;
 };
 
 export type ProfileProps = {
-  setStep: (setStep: number) => void
-  userId: number | undefined
-}
+  setStep: (setStep: number) => void;
+};
 
 export type CreateProfileParams = {
   name: string;
@@ -44,24 +43,26 @@ export type Donation = {
   SocialMediaUrl: string;
 };
 
-
 export type ProfileType = {
-    _id: string;
-    name: string
-    about: string
-    avatarImage: string
-    backgroundImage: string
-    successMessage: string
-    userId: number
-}
+  _id: string;
+  name: string;
+  about: string;
+  avatarImage: string;
+  backgroundImage: string;
+  successMessage: string;
+  userId: number;
+  socialMediaURL: string;
+};
 
 export type ProfileContextType = {
-    profile?: ProfileType;
-    isLoading: boolean
-    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
-}
+  profile?: ProfileType;
+  isLoading: boolean;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+};
 
 export type EditProfileType = {
-    userId: number | undefined
-    setIsEditing: (setIsEditing: boolean) => void
-}
+  userId: number | undefined;
+  setIsEditing: (setIsEditing: boolean) => void;
+};

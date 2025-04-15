@@ -7,12 +7,11 @@ import { DonationRouter } from "./routers/donation.router";
 
 import { bankCardRouter } from "./routers/bankCard.router";
 
-
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const port = 8000;
+const port = 8001;
 
 app.use("/user", userRouter);
 app.use("/profile", profileRouter);
@@ -20,7 +19,6 @@ app.use("/profile", profileRouter);
 app.use("/donation", DonationRouter);
 
 app.use("/bankCard", bankCardRouter);
-
 
 app.listen(port, () => {
   console.log("Server started at http://localhost:" + port);

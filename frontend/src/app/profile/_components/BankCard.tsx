@@ -2,12 +2,14 @@
 
 import { Formik } from "formik";
 import CountrySelection from "@/app/homePage/(settings)/_components/paymentDetail/CountrySelection";
-import InputField from "@/app/[userId]/components/InputField";
+import InputField from "@/app/[username]/components/InputField";
 import ExpiryDateSelector from "@/app/homePage/(settings)/_components/paymentDetail/ExpiryDate";
 import axios from "axios";
 import { useUser } from "@/app/provider/UserProvider";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { Router } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type BankCardProps = {
   setStep: (step: number) => void;
@@ -32,7 +34,10 @@ const validationSchema = Yup.object({
     .min(2, "Last name must be at least 2 characters."),
   cardNumber: Yup.string()
     .required("Card number is required.")
-    .matches(/^[0-9]{16}$/, "Card number must be 16 digits."),
+    .matches(
+      /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/,
+      "Card number must be 16 digits."
+    ),
   expiryDate: Yup.date().required("Expiry date is required.").nullable(),
   cvc: Yup.string()
     .required("CVC is required.")
@@ -44,6 +49,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
     setStep(1);
   };
   const { userId } = useUser();
+  const router = useRouter();
   return (
     <div>
       <Formik<PaymentFormValues>
@@ -66,7 +72,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
 
           try {
             const response = await axios.post(
-              `http://localhost:8000/bankCard/${userId}`,
+              `${process.env.NEXT_PUBLIC_BASE_URL}/bankCard/${userId}`,
               formattedValues
             );
             console.log("Bank card created successfuly", response.data);
@@ -74,6 +80,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
               position: "top-right",
               autoClose: 5000,
             });
+            router.push("homePage");
             return response.data;
           } catch (error) {
             console.log("error in creating bank card from front end", error);

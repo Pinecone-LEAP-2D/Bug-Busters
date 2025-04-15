@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -10,6 +10,8 @@ import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
 import { ProfileProvider } from "./provider/ProfileProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ProfileAuthProvider from "./provider/ProfileAuthProvider";
+import AllProfileProvider from "./provider/AllProfileProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,8 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
 
   return (
     <html lang="en">
@@ -40,11 +41,13 @@ export default function RootLayout({
             <NuqsAdapter>
               <UserProvider>
                 <ProfileProvider>
-                  <BankCardProvider>
-                    <DonationProvider>
-                      {children}
-                    </DonationProvider>
-                  </BankCardProvider>
+                  <ProfileAuthProvider>
+                    <AllProfileProvider>
+                      <BankCardProvider>
+                        <DonationProvider>{children}</DonationProvider>
+                      </BankCardProvider>
+                    </AllProfileProvider>
+                  </ProfileAuthProvider>
                 </ProfileProvider>
               </UserProvider>
             </NuqsAdapter>
@@ -54,4 +57,4 @@ export default function RootLayout({
     </html>
   );
 }
-``
+``;

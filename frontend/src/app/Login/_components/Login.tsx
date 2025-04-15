@@ -36,7 +36,7 @@ export const LoginFirst = () => {
       onSubmit={async (values) => {
         try {
           const response = await axios.post(
-            "http://localhost:8000/user/logIn",
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/logIn`,
             {
               email: values.email,
               password: values.password,

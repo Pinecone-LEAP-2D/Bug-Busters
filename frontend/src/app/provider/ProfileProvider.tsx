@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ProfileContextType, ProfileType } from "@/type";
 import { getProfile } from "@/utils/profileRequest";
 import { useUser } from "./UserProvider";
+import { Loading } from "@/components/Loading";
 
 const ProfileContext = createContext<ProfileContextType>(
   {} as ProfileContextType
@@ -19,7 +20,7 @@ export const ProfileProvider = ({
 
   const fetchProfile = async () => {
     const { data } = await getProfile(userId as number);
-    return data;
+    return data[0];
   };
 
   const {
@@ -31,10 +32,8 @@ export const ProfileProvider = ({
   } = useQuery<ProfileType>({ queryKey: ["profile"], queryFn: fetchProfile });
 
   return (
-    <ProfileContext.Provider
-      value={{ profile, refetch: refetch, isLoading }}
-    >
-      {children}
+    <ProfileContext.Provider value={{ profile, refetch: refetch, isLoading }}>
+      {isLoading ? <Loading loadingBoolean={true} /> : children}
     </ProfileContext.Provider>
   );
 };
