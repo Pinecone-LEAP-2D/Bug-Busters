@@ -21,7 +21,7 @@ export type CreateProfileParams = {
   socialMediaURL: string;
   backgroundImage: string;
   successMessage: string;
-  userId: number;
+  userId: number | undefined
 };
 export type Donor = {
   id: number;
@@ -44,7 +44,6 @@ export type Donation = {
   SocialMediaUrl: string;
 };
 
-
 export type ProfileType = {
     _id: string;
     name: string
@@ -59,6 +58,22 @@ export type ProfileContextType = {
     profile?: ProfileType;
     isLoading: boolean
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
+}
+
+export type AllProfileType = {
+  _id: string;
+  name: string
+  about: string
+  avatarImage: string
+  backgroundImage: string
+  successMessage: string
+  userId: number
+}
+
+export type AllProfileContextType = {
+  profile?: AllProfileType[]
+  isLoading: boolean
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
 }
 
 export type EditProfileType = {

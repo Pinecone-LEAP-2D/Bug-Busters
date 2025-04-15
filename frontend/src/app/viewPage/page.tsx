@@ -6,15 +6,20 @@ import { EditProfile } from "./_features/EditProfile"
 import { UploadCover } from "./_features/UploadCover"
 import { ShowProfile } from "./_features/ShowProfile"
 import { useUser } from "../provider/UserProvider"
+import Header from "../components/Header"
 
 export default function Home() {
-    const {userId} = useUser()
+    const { userId } = useUser()
     const [isEditing, setIsEditing] = useState(false)
-    return(
+    return (
         <div>
-            {isEditing ? <EditProfile userId={userId} setIsEditing={setIsEditing} /> : <ShowProfile userId={userId} setIsEditing={setIsEditing} />}
-            <Donate/>
-            <UploadCover/>
+            <Header />
+            <div>
+                {isEditing ? <EditProfile userId={userId} setIsEditing={setIsEditing} /> : <ShowProfile userId={userId} setIsEditing={setIsEditing} />}
+                <Donate />
+                <UploadCover />
+            </div>
         </div>
+
     )
-  }
+}
