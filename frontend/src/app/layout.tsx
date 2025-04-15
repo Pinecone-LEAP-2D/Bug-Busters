@@ -9,11 +9,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
 import { ProfileProvider } from "./provider/ProfileProvider";
-import { DonationProvider } from "./provider/DonationProvider";
-import AuthProvider from "./provider/AuthProvider";
-import { BankCardProvider } from "./provider/BankCardProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
