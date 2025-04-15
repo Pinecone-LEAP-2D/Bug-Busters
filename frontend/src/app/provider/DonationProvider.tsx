@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useUser } from "./UserProvider";
 import { Donation } from "@/type";
+import { Loading } from "@/components/Loading";
 
 type donationContextType = {
   days: number;
@@ -32,6 +33,8 @@ export const DonationProvider = ({
   const [days] = useQueryState("days", parseAsFloat.withDefault(0));
   const [amount] = useQueryState("amount", parseAsFloat.withDefault(0));
   const [totalEarning, setTotalEarning] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   console.log(days, amount, "hohohoho");
 
   const getTotalEarning = async () => {
@@ -40,6 +43,7 @@ export const DonationProvider = ({
       `${process.env.NEXT_PUBLIC_BASE_URL}/donation/total-earning/${userId}`
     );
     setTotalEarning(data.totalEarnings);
+    setLoading(false);
   };
   const [donations, setDonations] = useState<Donation[]>([]);
 
@@ -58,6 +62,7 @@ export const DonationProvider = ({
       );
       console.log("Filtered Donations:", response.data.donations);
       setDonations(response.data.donations);
+      setLoading(false);
     } catch (err) {
       console.error("Error fetching donations:", err);
     }
@@ -71,7 +76,7 @@ export const DonationProvider = ({
 
   return (
     <DonationContext.Provider value={{ days, totalEarning, donations, amount }}>
-      {children}
+      {loading ? <Loading loadingBoolean={true} /> : children}
     </DonationContext.Provider>
   );
 };

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useUser } from "./UserProvider";
 import { getBankCardById } from "@/utils/axios";
 import { createContext, useContext, useEffect } from "react";
-
+import { Loading } from "@/components/Loading";
 type BankCard = {
   id: number;
   country: string;
@@ -31,6 +31,7 @@ export const BankCardProvider = ({
 }) => {
   const { userId } = useUser();
   const [bankCard, setBankCard] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getData = async () => {
     try {
@@ -40,6 +41,7 @@ export const BankCardProvider = ({
       }
       console.log("API response:", response);
       setBankCard(response?.response || []);
+      setLoading(false);
     } catch (error) {
       console.error("Error getting user bank card detail", error);
     }
@@ -55,7 +57,7 @@ export const BankCardProvider = ({
         getData,
       }}
     >
-      {children}
+      {loading ? <Loading loadingBoolean={true} /> : children}
     </BankCardContext.Provider>
   );
 };
