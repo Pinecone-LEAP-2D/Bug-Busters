@@ -39,7 +39,7 @@ export const BankCardProvider = ({
         response = await getBankCardById(userId);
       }
       console.log("API response:", response);
-      setBankCard(response.response || []);
+      setBankCard(response?.response || []);
     } catch (error) {
       console.error("Error getting user bank card detail", error);
     }

@@ -27,18 +27,12 @@ const UserInformation = () => {
       <div className="flex justify-between pb-6">
         <div className="flex gap-2 cursor-default">
           <div className="w-12 h-12 bg-gray-400 rounded-full">
-            {donations.map((donation, index) => {
-              const avatar = donation?.donor?.profile?.avatarImage;
-
-              return (
-                <img
-                  key={index}
-                  src={avatar || "/default-avatar.png"}
-                  alt="Donor Avatar"
-                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                />
-              );
-            })}
+            {
+              <img
+                alt="Donor Avatar"
+                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+              />
+            }
           </div>
           <div className="text-black">
             <h1 className="font-semibold ">{username}</h1>

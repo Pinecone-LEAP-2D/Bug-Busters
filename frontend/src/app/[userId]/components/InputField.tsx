@@ -11,7 +11,8 @@ const InputField = ({ label, value, onChange, type }: InputProps) => {
     let newValue = e.target.value;
     if (
       label.toLowerCase() === "first name" ||
-      label.toLowerCase() === "last name"
+      label.toLowerCase() === "last name" ||
+      label.toLowerCase() === "user name"
     ) {
       newValue = newValue.charAt(0).toUpperCase() + newValue.slice(1);
     }

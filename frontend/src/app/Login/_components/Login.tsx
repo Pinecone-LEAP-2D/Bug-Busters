@@ -28,7 +28,7 @@ export const LoginFirst = () => {
   return (
     <Formik
       initialValues={{
-        email: savedEmail,
+        email: savedEmail || "",
         password: "",
       }}
       enableReinitialize={true}

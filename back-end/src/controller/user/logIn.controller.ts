@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const logInUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -17,14 +18,16 @@ export const logInUser = async (req: Request, res: Response) => {
       });
       return;
     }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (user.password !== password) {
+    if (!isPasswordValid) {
       res.status(401).json({
         success: false,
         message: "Incorrect password",
       });
       return;
     }
+
     const decodePassword = "123";
 
     const token = jwt.sign(

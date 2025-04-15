@@ -9,6 +9,8 @@ import * as Yup from "yup";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 const PasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -29,6 +31,17 @@ const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
   const previousPage = () => {
     setStep(1);
   };
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("username");
+    if (storedName) {
+      setUserName(storedName);
+    }
+  }, []);
+
+  console.log("in step two", userName);
+
   return (
     <Formik
       initialValues={{
@@ -39,16 +52,19 @@ const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
       onSubmit={async (values) => {
         try {
           console.log(values);
-          const userName = localStorage.getItem("userName");
           const response = await axios.post(
             "http://localhost:8000/user/sign-up",
             {
               email: values.email,
               password: values.password,
-              username: userName,
+              userName: userName,
             }
           );
           console.log("user created successfully", response);
+          toast.success("🎉 Account created! Welcome aboard.", {
+            position: "top-right",
+            autoClose: 5000,
+          });
           router.push("/");
           localStorage.removeItem("username");
         } catch (error) {

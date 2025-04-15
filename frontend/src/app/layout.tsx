@@ -33,19 +33,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
-       <ToastContainer />
+        <ToastContainer />
         <AuthProvider>
-         <NuqsAdapter>
-          <UserProvider>
-             <BankCardProvider>
-            <DonationProvider>
-              {" "}
-             {children}
-            </DonationProvider>
-               </BankCardProvider>
-          </UserProvider>
-         </NuqsAdapter>
-          </AuthProvider>
+          <NuqsAdapter>
+            <UserProvider>
+              <BankCardProvider>
+                <DonationProvider> {children}</DonationProvider>
+              </BankCardProvider>
+            </UserProvider>
+          </NuqsAdapter>
+        </AuthProvider>
       </body>
     </html>
   );
