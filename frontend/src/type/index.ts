@@ -65,4 +65,3 @@ export type EditProfileType = {
     userId: number | undefined
     setIsEditing: (setIsEditing: boolean) => void
 }
-
