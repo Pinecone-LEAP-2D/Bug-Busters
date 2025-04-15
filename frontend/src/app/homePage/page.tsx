@@ -4,9 +4,9 @@ import { useState } from "react";
 import ControllerBar from "./components/ControllerBar";
 import Home from "./(home)/_features/Home";
 import Explore from "./(explore)/_features/Explore";
-import ViewPage from "./(viewPage)/_features/ViewPage";
 import Settings from "./(settings)/_features/Settings";
 import Header from "../components/Header";
+
 
 const HomePage = () => {
   const [step, setStep] = useState("home");
@@ -17,7 +17,6 @@ const HomePage = () => {
         <ControllerBar setStep={setStep} step={step} />
         {step === "home" && <Home />}
         {step === "explore" && <Explore />}
-        {step === "viewPage" && <ViewPage />}
         {step === "settings" && <Settings />}
       </div>
     </div>

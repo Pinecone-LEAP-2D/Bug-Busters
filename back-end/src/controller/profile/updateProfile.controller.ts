@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../../prismaClient";
 
-
 export const updateProfile = async (req: Request, res: Response) => {
-    const {name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId} = req.body;
+    const {name, about, avatarImage, socialMediaURL, backgroundImage, userId} = req.body;
 
     try {
         const updatedProfile = await prisma.profile.update({
@@ -14,7 +13,6 @@ export const updateProfile = async (req: Request, res: Response) => {
                 avatarImage: avatarImage,
                 socialMediaURL: socialMediaURL,
                 backgroundImage: backgroundImage,
-                successMessage: successMessage,
             }
         })
         res.status(201).json(`Profile updated ${updatedProfile}`);
