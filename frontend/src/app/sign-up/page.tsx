@@ -23,7 +23,7 @@ const SignUp = () => {
                 <div className="font-bold text-2xl tracking-normal text-center">
                   Fund your creative work
                 </div>
-                <div className="font-normal text-base text-sm leading-6 tracking-normal text-center">
+                <div className="font-normal text-base  leading-6 tracking-normal text-center">
                   Accept support. Start a membership. Setup a shop. It’s easier
                   than you think.
                 </div>
@@ -32,7 +32,10 @@ const SignUp = () => {
           </div>
         </div>
         <div className="w-1/2 relative">
-          <Link className="absolute top-5 right-5 bg-gray-200 p-2 text-black rounded-sm" href={"/Login"}>
+          <Link
+            className="absolute top-5 right-5 bg-gray-200 p-2 text-black rounded-sm"
+            href={"/Login"}
+          >
             Log in
           </Link>
           <div className=" w-full h-full flex justify-center items-center text-gray-500 text-sm">

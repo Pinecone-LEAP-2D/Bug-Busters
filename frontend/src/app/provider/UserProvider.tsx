@@ -1,5 +1,6 @@
 "use client";
 
+import { Loading } from "@/components/Loading";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect, createContext, useContext } from "react";
 
@@ -57,7 +58,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         getUser,
       }}
     >
-      {loading ? <p>...Loading user context</p> : children}
+      {loading ? <Loading loadingBoolean={true} /> : children}
     </UserContext.Provider>
   );
 };

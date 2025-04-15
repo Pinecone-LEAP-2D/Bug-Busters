@@ -4,17 +4,13 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useJwt } from "react-jwt";
 
-type DecodedToken = {
-  role: string;
-};
-
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [token] = useState(() =>
     typeof window !== "undefined" ? localStorage.getItem("token") : null
   );
-  const { decodedToken, isExpired } = useJwt<DecodedToken>(token || "");
+  const { decodedToken, isExpired } = useJwt(token || "");
 
   useEffect(() => {
     const checkTokenAndRoute = () => {
