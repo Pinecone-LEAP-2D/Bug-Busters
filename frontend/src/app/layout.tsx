@@ -10,6 +10,7 @@ import AuthProvider from "./provider/AuthProvider";
 import { BankCardProvider } from "./provider/BankCardProvider";
 import { ProfileProvider } from "./provider/ProfileProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AllProfileProvider } from "./provider/AllProfileProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,11 +41,13 @@ export default function RootLayout({
             <NuqsAdapter>
               <UserProvider>
                 <ProfileProvider>
-                  <BankCardProvider>
-                    <DonationProvider>
-                      {children}
-                    </DonationProvider>
-                  </BankCardProvider>
+                  <AllProfileProvider>
+                    <BankCardProvider>
+                      <DonationProvider>
+                        {children}
+                      </DonationProvider>
+                    </BankCardProvider>
+                  </AllProfileProvider>
                 </ProfileProvider>
               </UserProvider>
             </NuqsAdapter>
