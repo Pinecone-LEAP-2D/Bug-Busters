@@ -15,9 +15,9 @@ export default function Home() {
         <div>
             <Header />
             <div>
+                <UploadCover />
                 {isEditing ? <EditProfile userId={userId} setIsEditing={setIsEditing} /> : <ShowProfile userId={userId} setIsEditing={setIsEditing} />}
                 <Donate />
-                <UploadCover />
             </div>
         </div>
 

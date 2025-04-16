@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ProfileSchema } from "@/schema/profile";
 import { EditProfileType, ProfileType } from "@/type";
 import { useFormik } from "formik"
-import { useState } from "react";
+import { Heart } from "lucide-react";
 
 export const ShowProfile = (props: EditProfileType) => {
   const { profile, isLoading } = useProfile()
@@ -47,6 +47,17 @@ const ProfileContent = (props: EditProfileType & { profile: ProfileType }) => {
           <div className="flex flex-col gap-3">
             <p className="text-base font-semibold leading-6">About {formik.values.name}</p>
             <p className="text-sm font-normal leading-5">{formik.values.about}</p>
+          </div>
+        </div>
+        <div className="flex flex-col p-6 gap-3 border rounded-lg">
+          <p className="font-semibold leading-6 text-base">Social Media URL</p>
+          <p className="font-normal text-sm leading-5">{formik.values.socialMediaURL}</p>
+        </div>
+        <div className="flex flex-col p-6 border rounded-lg gap-3">
+          <p className="font-semibold leading-6 text-base">Recent Supporters</p>
+          <div className="border rounded-lg flex flex-col h-[150px] justify-center items-center gap-1">
+            <Heart/>
+            <p className="font-semibold">Be the first one to support {formik.values.name}</p>
           </div>
         </div>
       </div>
