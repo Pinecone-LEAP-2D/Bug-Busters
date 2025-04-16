@@ -30,9 +30,9 @@ const BuyCoffee = ({ donorId }: { donorId?: number }) => {
     <Formik
       initialValues={{
         amount: 1,
-        donorId: donorId,
+        donorId: userId,
         socialURLOrBuyMeCoffee: "",
-        recipientId: userId,
+        recipientId: donorId,
         specialMessage: "",
       }}
       validationSchema={validationSchema}

@@ -7,8 +7,9 @@ import axios from "axios";
 import { useUser } from "@/app/provider/UserProvider";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import InputField from "@/app/[username]/components/InputField";
+import InputField from "@/app/donation/[username]/components/InputField";
 import { useRouter } from "next/navigation";
+import { useProfile } from "@/app/provider/ProfileProvider";
 
 type BankCardProps = {
   setStep: (step: number) => void;
@@ -50,6 +51,8 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
   };
   const { userId } = useUser();
   const router = useRouter();
+  const { profile, isLoading, refetch } = useProfile();
+
   return (
     <div>
       <Formik<PaymentFormValues>
@@ -73,16 +76,17 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
           try {
             const response = await axios.post(
               `${process.env.NEXT_PUBLIC_BASE_URL}/bankCard/${userId}`,
-
               formattedValues
             );
-            router.push("/homePage");
+
             console.log("Bank card created successfuly", response.data);
             toast.success("✅ Profile creation complete — you’re all set!", {
               position: "top-right",
               autoClose: 5000,
             });
-            return response.data;
+            // return response.data;
+            refetch();
+            router.push("/homePage");
           } catch (error) {
             console.log("error in creating bank card from front end", error);
           }
