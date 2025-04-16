@@ -73,6 +73,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
           try {
             const response = await axios.post(
               `${process.env.NEXT_PUBLIC_BASE_URL}/bankCard/${userId}`,
+
               formattedValues
             );
             console.log("Bank card created successfuly", response.data);

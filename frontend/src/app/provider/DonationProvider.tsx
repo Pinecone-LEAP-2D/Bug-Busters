@@ -18,6 +18,7 @@ type donationContextType = {
   totalEarning: number;
   donations: Donation[];
   amount: number;
+  smallLoading: boolean;
 };
 
 const DonationContext = createContext<donationContextType>(
@@ -37,13 +38,17 @@ export const DonationProvider = ({
 
   const getTotalEarning = async () => {
     if (!userId) return;
+    setSmallLoading(true);
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/donation/total-earning/${userId}`
     );
+    setSmallLoading(false);
     setTotalEarning(data.totalEarnings);
     setLoading(false);
   };
   const [donations, setDonations] = useState<Donation[]>([]);
+  const [smallLoading, setSmallLoading] = useState(false);
+  console.log(smallLoading);
 
   const getDonation = async () => {
     if (!userId) return;
@@ -51,14 +56,14 @@ export const DonationProvider = ({
       const queryParams = new URLSearchParams();
       if (amount !== 0) queryParams.append("amount", amount.toString());
       if (days !== 0) queryParams.append("days", days.toString());
-
+      setSmallLoading(true);
       const queryString = queryParams.toString();
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/donation/search/${userId}?${queryString}`
       );
       // console.log("Filtered Donations:", response.data.donations);
       setDonations(response.data.donations);
-      setLoading(false);
+      setSmallLoading(false);
     } catch (err) {
       console.error("Error fetching donations:", err);
     }
@@ -71,7 +76,10 @@ export const DonationProvider = ({
   }, [days, amount, userId]);
 
   return (
-    <DonationContext.Provider value={{ days, totalEarning, donations, amount }}>
+
+    <DonationContext.Provider
+      value={{ days, totalEarning, donations, amount, smallLoading }}
+    >
       {children}
     </DonationContext.Provider>
   );

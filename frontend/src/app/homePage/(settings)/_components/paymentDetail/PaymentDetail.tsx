@@ -39,6 +39,7 @@ const PaymentDetail = () => {
         try {
           const response = await axios.put(
             `${process.env.NEXT_PUBLIC_BASE_URL}/bankCard/${userId}`,
+
             formattedValues
           );
           getData();

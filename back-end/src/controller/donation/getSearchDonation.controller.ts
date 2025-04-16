@@ -8,22 +8,32 @@ export const GetSearchDonation = async (req: Request, res: Response) => {
   const amountFilter = amount ? parseFloat(amount as string) : undefined;
   const daysFilter = days ? parseInt(days as string) : undefined;
 
-  const currentDate = new Date();
   let dateFilter: Date | undefined;
 
-  if (daysFilter === 30) {
-    dateFilter = new Date(currentDate.setDate(currentDate.getDate() - 30));
-  } else if (daysFilter === 60) {
-    dateFilter = new Date(currentDate.setDate(currentDate.getDate() - 60));
-  } else if (daysFilter === 90) {
-    dateFilter = new Date(currentDate.setDate(currentDate.getDate() - 90));
+  if (daysFilter) {
+    const now = new Date();
+    const pastDate = new Date(now.getTime() - daysFilter * 24 * 60 * 60 * 1000);
+    dateFilter = pastDate;
   }
 
   try {
     const donations = await prisma.donation.findMany({
+      include: {
+        donor: {
+          select: {
+            id: true,
+            profile: {
+              select: {
+                name: true,
+                avatarImage: true,
+              },
+            },
+          },
+        },
+      },
       where: {
         recipientId: userId,
-        amount: amountFilter ? { gte: amountFilter } : undefined,
+        amount: amountFilter ? { equals: amountFilter } : undefined,
         createdAt: dateFilter ? { gte: dateFilter } : undefined,
       },
       orderBy: {

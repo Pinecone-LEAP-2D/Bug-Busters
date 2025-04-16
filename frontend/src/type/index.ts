@@ -44,6 +44,7 @@ export type Donation = {
 };
 
 export type ProfileType = {
+  donorId: unknown;
   _id: string;
   name: string;
   about: string;

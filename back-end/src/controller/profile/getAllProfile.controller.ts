@@ -16,3 +16,4 @@ const getAllProfile = async (req: Request, res: Response) => {
 };
 
 export default getAllProfile;
+

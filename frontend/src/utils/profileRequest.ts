@@ -10,6 +10,11 @@ export const getProfile = async (userId: number) => {
     return data
 }
 
+export const getAllProfiles = async() => {
+    const {data} = await instance.get(`/profile/profiles`)
+    return data
+}
+
 export const createProfile = async ({ name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId }: CreateProfileParams) => {
     const { data } = await instance.post(`/profile`, { name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId });
     return data

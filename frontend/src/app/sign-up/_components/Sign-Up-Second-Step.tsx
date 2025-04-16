@@ -54,6 +54,7 @@ const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
           console.log(values);
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/user/sign-up`,
+
             {
               email: values.email,
               password: values.password,
