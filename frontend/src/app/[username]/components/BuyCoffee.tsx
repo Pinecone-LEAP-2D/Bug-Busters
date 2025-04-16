@@ -2,20 +2,64 @@ import { Formik } from "formik";
 import TextArea from "./TextArea";
 import InputField from "./InputField";
 import CoffeeIcon from "@/app/assets/CoffeeIcon";
+import { useUser } from "@/app/provider/UserProvider";
+import { toast } from "react-toastify";
 
-const BuyCoffee = () => {
+import * as Yup from "yup";
+import axios from "axios";
+
+const validationSchema = Yup.object().shape({
+  socialURLOrBuyMeCoffee: Yup.string()
+    .required("Social media URL is required")
+    .matches(
+      /^https?:\/\/(www\.)?(facebook|twitter|instagram|linkedin|tiktok)\.com\/[A-Za-z0-9_.-]+\/?$/,
+      "Must be a valid social media URL"
+    ),
+
+  specialMessage: Yup.string()
+    .min(3, "Must be longer than 2 characters")
+    .required("This field is required"),
+});
+
+const BuyCoffee = ({ donorId }: { donorId?: number }) => {
+  const { userId } = useUser();
+
+  if (!donorId) return <></>;
+
   return (
     <Formik
       initialValues={{
-        socialMediaUrl: "",
-        specialMessage: "",
         amount: 1,
+        donorId: donorId,
+        socialURLOrBuyMeCoffee: "",
+        recipientId: userId,
+        specialMessage: "",
       }}
-      onSubmit={(values) => {
-        console.log("confirmation message", values);
+      validationSchema={validationSchema}
+      onSubmit={async (values) => {
+        try {
+          console.log(values);
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/donation`,
+            {
+              // amount: values.amount,
+              // donorId: values.donorId,
+              // socialURLOrBuyMeCoffee: values.socialURLOrBuyMeCoffee,
+              // recipientId: values.recipientId,
+              // specialMessage: values.specialMessage,
+              ...values,
+            }
+          );
+          toast.success("🌟 Thanks for buying me a coffee! You're awesome..", {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        } catch (error) {
+          console.log("error in create donor from front end", error);
+        }
       }}
     >
-      {({ values, handleSubmit, setFieldValue }) => (
+      {({ values, handleSubmit, setFieldValue, errors }) => (
         <form onSubmit={handleSubmit}>
           <div className="p-6 rounded-lg  w-[625px] bg-white">
             <div>
@@ -43,16 +87,32 @@ const BuyCoffee = () => {
               </div>
             </div>
             <div className="flex flex-col gap-6 ">
-              <InputField
-                label="Enter BuyMeCoffee or social acount URL:"
-                value={values.socialMediaUrl}
-                onChange={(value) => setFieldValue("socialMediaUrl", value)}
-              />
-              <TextArea
-                label="Special message:"
-                value={values.specialMessage}
-                onChange={(value) => setFieldValue("specialMessage", value)}
-              />
+              <div>
+                <InputField
+                  label="Enter BuyMeCoffee or social acount URL:"
+                  value={values.socialURLOrBuyMeCoffee}
+                  onChange={(value) =>
+                    setFieldValue("socialURLOrBuyMeCoffee", value)
+                  }
+                />
+                {errors.socialURLOrBuyMeCoffee ? (
+                  <p className="text-red-500 text-[12px]">
+                    {errors.socialURLOrBuyMeCoffee}
+                  </p>
+                ) : null}
+              </div>
+              <div>
+                <TextArea
+                  label="Special message:"
+                  value={values.specialMessage}
+                  onChange={(value) => setFieldValue("specialMessage", value)}
+                />
+                {errors.specialMessage ? (
+                  <p className="text-red-500 text-[12px]">
+                    {errors.specialMessage}
+                  </p>
+                ) : null}
+              </div>
             </div>
             <button
               className="w-full h-auto bg-black text-white py-2 mt-6 rounded-sm"

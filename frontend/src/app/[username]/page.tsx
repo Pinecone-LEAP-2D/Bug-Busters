@@ -23,9 +23,10 @@ const UserDetailedProfile = () => {
     };
     const found = allProfiles?.find(findProfile);
     setProfile(found);
-  }, []);
+  }, [allProfiles]);
 
-  console.log(profile);
+  if (!profile) return <>Not found</>;
+  const donorId = profile.userId;
 
   return (
     <div className="w-screen h-screen flex flex-col  ">
@@ -38,10 +39,14 @@ const UserDetailedProfile = () => {
             about={profile?.about}
             avatar={profile?.avatarImage}
           />
-          <BuyCoffee />
+          <BuyCoffee donorId={donorId} />
           <SocialMediaUrl url={profile?.socialMediaURL} />
           <div className="col-span-2">
-            <RecentSupporters />
+            <RecentSupporters
+              name={profile?.name}
+              avatar={profile?.avatarImage}
+              donorId={donorId}
+            />
           </div>
         </div>
       </div>

@@ -73,12 +73,12 @@ const RecentTransactions = () => {
                     <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
                       <img
                         className="object-cover"
-                        src={element.donor.profile.avatarImage}
+                        src={element.donor?.profile?.avatarImage}
                       />
                     </div>
                     <div>
                       <h1 className="text-[14px]">
-                        {element.donor.profile.name}
+                        {element.donor?.profile?.name}
                       </h1>
                       <p className="text-[12px]">{element.SocialMediaUrl}</p>
                     </div>

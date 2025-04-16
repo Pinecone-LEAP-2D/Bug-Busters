@@ -2,13 +2,12 @@
 
 import { Formik } from "formik";
 import CountrySelection from "@/app/homePage/(settings)/_components/paymentDetail/CountrySelection";
-import InputField from "@/app/[username]/components/InputField";
 import ExpiryDateSelector from "@/app/homePage/(settings)/_components/paymentDetail/ExpiryDate";
 import axios from "axios";
 import { useUser } from "@/app/provider/UserProvider";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { Router } from "lucide-react";
+import InputField from "@/app/[username]/components/InputField";
 import { useRouter } from "next/navigation";
 
 type BankCardProps = {
@@ -35,9 +34,10 @@ const validationSchema = Yup.object({
   cardNumber: Yup.string()
     .required("Card number is required.")
     .matches(
-      /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/,
-      "Card number must be 16 digits."
+      /^\d{4}-\d{4}-\d{4}-\d{4}$/,
+      "Card number must be in format: 1234-1234-1234-1234"
     ),
+
   expiryDate: Yup.date().required("Expiry date is required.").nullable(),
   cvc: Yup.string()
     .required("CVC is required.")
@@ -80,7 +80,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
               position: "top-right",
               autoClose: 5000,
             });
-            router.push("homePage");
+            router.push("/homePage");
             return response.data;
           } catch (error) {
             console.log("error in creating bank card from front end", error);
