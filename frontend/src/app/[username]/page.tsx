@@ -27,6 +27,7 @@ const UserDetailedProfile = () => {
 
   if (!profile) return <>Not found</>;
   const donorId = profile.userId;
+  console.log("dsadasdas", profile);
 
   return (
     <div className="w-screen h-screen flex flex-col  ">

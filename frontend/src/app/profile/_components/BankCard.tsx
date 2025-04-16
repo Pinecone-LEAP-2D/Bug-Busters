@@ -76,12 +76,12 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
 
               formattedValues
             );
+            router.push("/homePage");
             console.log("Bank card created successfuly", response.data);
             toast.success("✅ Profile creation complete — you’re all set!", {
               position: "top-right",
               autoClose: 5000,
             });
-            router.push("/homePage");
             return response.data;
           } catch (error) {
             console.log("error in creating bank card from front end", error);

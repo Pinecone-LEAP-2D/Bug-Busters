@@ -26,6 +26,6 @@ export const CreateDonation = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: true, message: "Internal Error" });
+    res.status(500).json({ error: error, message: "Internal Error" });
   }
 };

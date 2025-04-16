@@ -8,6 +8,6 @@ import { GetSearchDonation } from "../controller/donation/getSearchDonation.cont
 export const DonationRouter = express.Router();
 
 DonationRouter.post("/", DonationCreateMid, CreateDonation);
-DonationRouter.get("/", GetRecievedDonation);
+DonationRouter.get("/:userId", GetRecievedDonation);
 DonationRouter.get("/total-earning/:userId", GetTotalEarningsDonation);
 DonationRouter.get("/search/:userId", GetSearchDonation);
