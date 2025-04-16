@@ -168,7 +168,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/battulga/Desktop/Bug-Busters/back-end/generated/prisma",
+      "value": "/Users/24LP7490/Desktop/Coffee/Bug-Busters/back-end/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -177,12 +177,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/battulga/Desktop/Bug-Busters/back-end/prisma/schema.prisma",
+    "sourceFilePath": "/Users/24LP7490/Desktop/Coffee/Bug-Busters/back-end/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
