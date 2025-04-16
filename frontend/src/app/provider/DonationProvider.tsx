@@ -1,17 +1,9 @@
 "use client";
 import axios, { AxiosResponse } from "axios";
 import { parseAsFloat, useQueryState } from "nuqs";
-import {
-  useState,
-  createContext,
-  useContext,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { useUser } from "./UserProvider";
 import { Donation } from "@/type";
-import { Loading } from "@/components/Loading";
 
 type donationContextType = {
   days: number;
@@ -48,7 +40,6 @@ export const DonationProvider = ({
   };
   const [donations, setDonations] = useState<Donation[]>([]);
   const [smallLoading, setSmallLoading] = useState(false);
-  console.log(smallLoading);
 
   const getDonation = async () => {
     if (!userId) return;
@@ -61,7 +52,6 @@ export const DonationProvider = ({
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/donation/search/${userId}?${queryString}`
       );
-      // console.log("Filtered Donations:", response.data.donations);
       setDonations(response.data.donations);
       setSmallLoading(false);
     } catch (err) {

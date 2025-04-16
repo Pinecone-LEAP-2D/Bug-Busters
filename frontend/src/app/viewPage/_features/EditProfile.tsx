@@ -1,48 +1,57 @@
-'use client'
+"use client";
 
 import { useProfile } from "@/app/provider/ProfileProvider";
 import { Button } from "@/components/ui/button";
 import { ProfileSchema } from "@/schema/profile";
 import { EditProfileType, ProfileType } from "@/type";
 import { updateProfile } from "@/utils/profileRequest";
-import { useFormik } from "formik"
+import { useFormik } from "formik";
 import { Heart } from "lucide-react";
 
 export const EditProfile = (props: EditProfileType) => {
-  const { profile, isLoading, refetch } = useProfile()
+  const { profile, isLoading, refetch } = useProfile();
 
   if (!profile || isLoading) {
-    return <>Loading</>
+    return <>Loading</>;
   }
-  return <ProfileContent {...props} profile={profile} refetch={refetch} />
-}
+  return <ProfileContent {...props} profile={profile} refetch={refetch} />;
+};
 
-const ProfileContent = (props: EditProfileType & { profile: ProfileType, refetch: () => Promise<unknown> }) => {
+const ProfileContent = (
+  props: EditProfileType & {
+    profile: ProfileType;
+    refetch: () => Promise<unknown>;
+  }
+) => {
   const { userId, setIsEditing, profile, refetch } = props;
 
   const handleSubmit = async (values: ProfileType) => {
-    const fetchProfile = await updateProfile(values)
+    const fetchProfile = await updateProfile(values);
     await refetch();
 
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const formik = useFormik({
     initialValues: {
-      ...(profile || {} as ProfileType),
+      ...(profile || ({} as ProfileType)),
       userId: userId,
     },
     validationSchema: ProfileSchema,
-    onSubmit: handleSubmit
+    onSubmit: handleSubmit,
   });
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <div className="bg-white flex flex-col gap-5 w-[630px] h-[625px]">
+      <div className="bg-white flex flex-col gap-5 w-1/2 h-fit shadow">
         <div className="flex flex-col gap-3 border p-6 rounded-2xl">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <img src={formik.values.avatarImage} alt="avatar image" className="w-[48px] h-[48px] rounded-full" />
+              <img
+                src={formik.values.avatarImage}
+                alt="avatar image"
+                className="w-[48px] h-[48px] rounded-full"
+              />
               <input
                 type="text"
                 name="name"
@@ -55,7 +64,9 @@ const ProfileContent = (props: EditProfileType & { profile: ProfileType, refetch
           </div>
           <div className="border my-4"></div>
           <div className="flex flex-col gap-3">
-            <p className="text-base font-semibold leading-6">About {formik.values.name}</p>
+            <p className="text-base font-semibold leading-6">
+              About {formik.values.name}
+            </p>
             <textarea
               name="about"
               onChange={formik.handleChange}
@@ -79,10 +90,12 @@ const ProfileContent = (props: EditProfileType & { profile: ProfileType, refetch
           <p className="font-semibold leading-6 text-base">Recent Supporters</p>
           <div className="border rounded-lg flex flex-col h-[150px] justify-center items-center gap-1">
             <Heart />
-            <p className="font-semibold">Be the first one to support {formik.values.name}</p>
+            <p className="font-semibold">
+              Be the first one to support {formik.values.name}
+            </p>
           </div>
         </div>
       </div>
     </form>
-  )
-}
+  );
+};
