@@ -7,16 +7,20 @@ import { ProfileFormik, ProfileProps } from "@/type";
 import { ProfileSchema } from "@/schema/profile";
 import { createProfile } from "@/utils/profileRequest";
 import axios from "axios";
+import { useUser } from "@/app/provider/UserProvider";
 
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_API_KEY = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+const CLOUDINARY_UPLOAD_PRESET =
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 const API_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
 export const ProfileForm = (props: ProfileProps) => {
-  const { setStep, userId } = props;
+  const { setStep } = props;
+  const { userId } = useUser();
   const [avatarImage, setAvatarImage] = useState<string | null>(null);
-  const [image, setImage] = useState<File | null>(null)
+  const [image, setImage] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const uploadCloudinary = async () => {
     if (!image) alert("Please insert photo");
@@ -43,7 +47,7 @@ export const ProfileForm = (props: ProfileProps) => {
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setImage(file)
+      setImage(file);
       const reader = new FileReader();
       reader.onload = () => {
         setAvatarImage(reader.result as string);
@@ -53,18 +57,23 @@ export const ProfileForm = (props: ProfileProps) => {
   };
 
   const handleSubmit = async (values: ProfileFormik) => {
+    if (!userId) {
+      console.error("userId is required");
+      return;
+    }
     try {
-      const img_url = await uploadCloudinary()
-      const newProfile = { ...values, avatarImage: img_url }
+      const img_url = await uploadCloudinary();
+      const newProfile = { ...values, userId: userId, avatarImage: img_url };
       console.log(newProfile);
-      
-      const fetchProfile = await createProfile(newProfile)
+
+      const fetchProfile = await createProfile(newProfile);
       console.log(fetchProfile);
       setStep(2);
+      localStorage.setItem("profile", "profile created");
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -76,7 +85,7 @@ export const ProfileForm = (props: ProfileProps) => {
       successMessage: "",
     },
     validationSchema: ProfileSchema,
-    onSubmit: handleSubmit
+    onSubmit: handleSubmit,
   });
 
   return (
@@ -93,7 +102,13 @@ export const ProfileForm = (props: ProfileProps) => {
         >
           <div className="w-full">
             <div className="flex justify-center">
-              {avatarImage && <img src={avatarImage} alt="Preview" className="rounded-full w-28 h-28 object-cover" />}
+              {avatarImage && (
+                <img
+                  src={avatarImage}
+                  alt="Preview"
+                  className="rounded-full w-28 h-28 object-cover"
+                />
+              )}
               <input
                 type="file"
                 hidden
@@ -149,7 +164,9 @@ export const ProfileForm = (props: ProfileProps) => {
           onBlur={formik.handleBlur}
         />
         {formik.touched.socialMediaURL && formik.errors.socialMediaURL && (
-          <div className="text-red-500 text-sm mt-1">{formik.errors.socialMediaURL}</div>
+          <div className="text-red-500 text-sm mt-1">
+            {formik.errors.socialMediaURL}
+          </div>
         )}
       </div>
 

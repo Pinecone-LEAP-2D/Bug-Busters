@@ -1,42 +1,63 @@
 "use client";
 
-import { createContext, useContext } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { AllProfileContextType, AllProfileType } from "@/type";
-import { getAllProfiles } from "@/utils/profileRequest";
+import { getAllProfiles } from "@/utils/axios";
+import { useEffect, useState, createContext, useContext } from "react";
 
-const AllProfileContext = createContext<AllProfileContextType>(
-    {} as AllProfileContextType
+type ProfileType = {
+  [x: string]: string | undefined;
+  name: string;
+  about: string;
+  socialMediaURL: string;
+  backgroundImage: string;
+  successMessage: string;
+};
+
+type ProfilesContextType = {
+  allProfiles: ProfileType[];
+  getData: () => Promise<void>;
+};
+
+const AllProfileContext = createContext<ProfilesContextType>(
+  {} as ProfilesContextType
 );
 
 export const AllProfileProvider = ({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) => {
-    const fetchAllProfile = async () => {
-        const { data } = await getAllProfiles();
-        return data;
-    };
+  const [allProfiles, setAllProfiles] = useState<ProfileType[]>([]);
 
-    const {
-        data: profiles,
-        error,
-        isLoading,
-        isError,
-        refetch,
-    } = useQuery<AllProfileType[]>({ queryKey: ["profiles"], queryFn: fetchAllProfile });
+  const getData = async () => {
+    try {
+      const response = await getAllProfiles();
+      setAllProfiles(response?.allProfile || []);
+    } catch (err) {
+      console.log("error in get data from get all profile provider", err);
+    }
+  };
 
-    return (
-        <AllProfileContext.Provider
-            value={{ profiles: profiles, refetch: refetch, isLoading }}
-        >
-            {children}
-        </AllProfileContext.Provider>
-    );
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <AllProfileContext.Provider
+      value={{
+        allProfiles,
+        getData,
+      }}
+    >
+      {children}
+    </AllProfileContext.Provider>
+  );
 };
 
-export const useAllProfile = () => {
-    const context = useContext(AllProfileContext);
-    return context;
+export const useAllProfiles = () => {
+  const context = useContext(AllProfileContext);
+
+  return context;
 };
+
+export default AllProfileProvider;
+

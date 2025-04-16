@@ -11,6 +11,8 @@ import {
 import { useUser } from "@/app/provider/UserProvider";
 import { useDonation } from "@/app/provider/DonationProvider";
 import { parseAsFloat, useQueryState } from "nuqs";
+import { useState } from "react";
+import { useProfile } from "@/app/provider/ProfileProvider";
 
 const UserInformation = () => {
   const { email, username } = useUser();
@@ -31,6 +33,8 @@ const UserInformation = () => {
               <img
                 alt="Donor Avatar"
                 style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                src={profile?.avatarImage}
+                className="object-cover"
               />
             }
           </div>
