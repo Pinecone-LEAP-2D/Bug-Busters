@@ -18,7 +18,8 @@ const UserInformation = () => {
   const { email, username } = useUser();
 
   const [days, setDays] = useQueryState("days", parseAsFloat.withDefault(0));
-  const { totalEarning, donations } = useDonation();
+  const { totalEarning } = useDonation();
+  const { profile } = useProfile();
 
   const set = (values: number) => {
     setDays(values);
