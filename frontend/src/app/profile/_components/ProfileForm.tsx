@@ -69,7 +69,6 @@ export const ProfileForm = (props: ProfileProps) => {
       const fetchProfile = await createProfile(newProfile);
       console.log(fetchProfile);
       setStep(2);
-      localStorage.setItem("profile", "profile created");
     } catch (error) {
       console.log(error);
     }
