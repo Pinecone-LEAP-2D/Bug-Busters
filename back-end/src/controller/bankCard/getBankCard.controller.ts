@@ -13,6 +13,7 @@ const getBankCard = async (req: Request, res: Response) => {
 
     if (bankCard.length === 0) {
       res.status(404).json({ msg: "No bank cards found for this user" });
+      return;
     }
     res
       .status(201)

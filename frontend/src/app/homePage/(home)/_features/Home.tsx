@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className="w-full px-10 h-full flex flex-col gap-6">
       <UserInformation />
-      {/* <RecentTransactions /> */}
+      <RecentTransactions />
     </div>
   );
 };

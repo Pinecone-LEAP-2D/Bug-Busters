@@ -34,19 +34,20 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [client, setClient] = useState<DecodedToken | null>(null);
   const [loading, setLoading] = useState(true);
-  console.log(client);
 
   const getUser = async () => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
     const user = await getDecodedToken(storedToken);
     setClient(user);
-    console.log("User decoded from token:", user);
+    // console.log("User decoded from token:", user);
     setLoading(false);
   };
 
   useEffect(() => {
-    getUser();
+    if (typeof window !== "undefined") {
+      getUser();
+    }
   }, []);
 
   return (
@@ -58,7 +59,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         getUser,
       }}
     >
-      {loading ? <Loading loadingBoolean={true} /> : children}
+      {children}
     </UserContext.Provider>
   );
 };

@@ -11,12 +11,15 @@ import {
 import { useUser } from "@/app/provider/UserProvider";
 import { useDonation } from "@/app/provider/DonationProvider";
 import { parseAsFloat, useQueryState } from "nuqs";
+import { useState } from "react";
+import { useProfile } from "@/app/provider/ProfileProvider";
 
 const UserInformation = () => {
   const { email, username } = useUser();
 
   const [days, setDays] = useQueryState("days", parseAsFloat.withDefault(0));
   const { totalEarning, donations } = useDonation();
+  const { profile } = useProfile();
 
   const set = (values: number) => {
     setDays(values);
@@ -29,8 +32,9 @@ const UserInformation = () => {
           <div className="w-12 h-12 bg-gray-400 rounded-full">
             {
               <img
-                alt="Donor Avatar"
                 style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                src={profile?.avatarImage}
+                className="object-cover"
               />
             }
           </div>

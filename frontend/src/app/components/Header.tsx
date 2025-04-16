@@ -11,9 +11,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useUser } from "../provider/UserProvider";
 import { useEffect } from "react";
+import { useProfile } from "../provider/ProfileProvider";
 
 const Header = () => {
   const { username, getUser } = useUser();
+  const { profile } = useProfile();
   const router = useRouter();
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -30,12 +32,18 @@ const Header = () => {
   return (
     <div className="w-screen h-[60px] flex justify-center cursor-default  px-4 py-2">
       <div className="max-w-7xl h-full w-full  flex justify-between items-center">
-        <div className="flex gap-2 items-center">
+        <button
+          className="flex gap-2 items-center cursor-pointer"
+          onClick={() => router.push("/homePage")}
+        >
           <CoffeeIcon />
           <h1 className="font-semibold">Buy Me Coffee</h1>
-        </div>
+        </button>
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+          <img
+            src={profile?.avatarImage}
+            className="object-cover w-10 h-10 rounded-full"
+          />
           <p className="text-[14px] font-semibold">{username}</p>
           <Popover>
             <PopoverTrigger className="cursor-pointer">

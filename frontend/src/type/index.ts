@@ -4,15 +4,14 @@ export type ProfileFormik = {
   name: string;
   about: string;
   socialMediaURL: string;
-  userId: number | undefined
+  userId: number | undefined;
   backgroundImage: string;
   successMessage: string;
 };
 
 export type ProfileProps = {
-  setStep: (setStep: number) => void
-  userId: number | undefined
-}
+  setStep: (setStep: number) => void;
+};
 
 export type CreateProfileParams = {
   name: string;
@@ -21,7 +20,7 @@ export type CreateProfileParams = {
   socialMediaURL: string;
   backgroundImage: string;
   successMessage: string;
-  userId: number | undefined
+  userId: number;
 };
 export type Donor = {
   id: number;
@@ -45,38 +44,26 @@ export type Donation = {
 };
 
 export type ProfileType = {
+  donorId: unknown;
   _id: string;
-  name: string
-  about: string
-  avatarImage: string
-  backgroundImage: string
-  successMessage: string
-  userId: number
-}
+  name: string;
+  about: string;
+  avatarImage: string;
+  backgroundImage: string;
+  successMessage: string;
+  userId: number;
+  socialMediaURL: string;
+};
 
 export type ProfileContextType = {
   profile?: ProfileType;
-  isLoading: boolean
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
-}
-
-export type AllProfileType = {
-  _id: string;
-  name: string
-  about: string
-  avatarImage: string
-  backgroundImage: string
-  successMessage: string
-  userId: number
-}
-
-export type AllProfileContextType = {
-  profiles: AllProfileType[] | undefined
-  isLoading: boolean
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
-}
+  isLoading: boolean;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+};
 
 export type EditProfileType = {
-  userId: number | undefined
-  setIsEditing: (setIsEditing: boolean) => void
-}
+  userId: number | undefined;
+  setIsEditing: (setIsEditing: boolean) => void;
+};

@@ -15,9 +15,9 @@ type ExpiryDateProps = {
 
 const ExpiryDateSelector = ({ value, onChange }: ExpiryDateProps) => {
   const { bankCard } = useBankCard();
-  const card = bankCard[0].expiryDate;
-  const year = card.slice(0, 4);
-  const month = card.slice(5, 7);
+  const card = bankCard[0]?.expiryDate;
+  const year = card?.slice(0, 4);
+  const month = card?.slice(5, 7);
   const months = Array.from({ length: 12 }, (_, i) =>
     String(i + 1).padStart(2, "0")
   );

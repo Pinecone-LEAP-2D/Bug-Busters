@@ -17,7 +17,7 @@ type BankCard = {
 
 type BankCardContextType = {
   bankCard: BankCard[];
-  getData: () => Promise<void>;
+  getData: () => Promise<null | undefined>;
 };
 
 const BankCardContext = createContext<BankCardContextType>(
@@ -34,22 +34,26 @@ export const BankCardProvider = ({
   const [loading, setLoading] = useState(true);
 
   const getData = async () => {
+    if (!userId) return;
     try {
       let response;
       if (userId) {
         response = await getBankCardById(userId);
       }
-      console.log("API response:", response);
       setBankCard(response?.response || []);
       setLoading(false);
-    } catch (error) {
-      console.error("Error getting user bank card detail", error);
+    } catch (error: any) {
+      if (error.response) {
+        return null;
+      }
     }
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (userId) {
+      getData();
+    }
+  }, [userId]);
   return (
     <BankCardContext.Provider
       value={{
@@ -57,7 +61,7 @@ export const BankCardProvider = ({
         getData,
       }}
     >
-      {loading ? <Loading loadingBoolean={true} /> : children}
+      {children}
     </BankCardContext.Provider>
   );
 };

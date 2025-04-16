@@ -70,6 +70,7 @@ const RecentTransactions = () => {
                   timeAgo = `${diffHours} hours ago`;
                 }
 
+
                 return (
                   <div
                     className="w-full h-auto p-6 border-2 cursor-default rounded-lg flex flex-col gap-3"
