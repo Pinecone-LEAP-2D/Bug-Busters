@@ -76,7 +76,9 @@ export const DonationProvider = ({
   }, [days, amount, userId]);
 
   return (
-    <DonationContext.Provider value={{ days, totalEarning, donations, amount }}>
+    <DonationContext.Provider
+      value={{ days, totalEarning, donations, amount, smallLoading }}
+    >
       {children}
     </DonationContext.Provider>
   );
