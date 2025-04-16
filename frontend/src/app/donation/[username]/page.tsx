@@ -5,10 +5,10 @@ import AboutUser from "./components/AboutUser";
 import SocialMediaUrl from "./components/SocialMediaUrl";
 import RecentSupporters from "./components/RecentSupporters";
 import BuyCoffee from "./components/BuyCoffee";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import { useEffect, useState } from "react";
 import { ProfileType } from "@/type";
-import { useAllProfiles } from "../provider/AllProfileProvider";
+import { useAllProfiles } from "../../provider/AllProfileProvider";
 
 const UserDetailedProfile = () => {
   const { allProfiles } = useAllProfiles();

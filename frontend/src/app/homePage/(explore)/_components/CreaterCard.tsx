@@ -28,7 +28,7 @@ const CreaterCard = () => {
               )}
               <h1 className="text-[20px] font-semibold">{profile.name}</h1>
             </div>
-            <Link href={`/${profile.name}`}>
+            <Link href={`/donation/${profile.name}`}>
               <button className="px-4 cursor-pointer py-2 flex items-center gap-2 justify-center font-medium bg-[#F4F4F5] rounded-lg">
                 <p>View profile</p>
                 <ViewProfileIcon />
