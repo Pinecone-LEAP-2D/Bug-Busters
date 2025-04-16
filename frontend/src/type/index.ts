@@ -50,8 +50,9 @@ export type ProfileType = {
   about: string
   avatarImage: string
   backgroundImage: string
+  socialMediaURL : string
   successMessage: string
-  userId: number
+  userId: number | undefined
 }
 
 export type ProfileContextType = {
@@ -64,6 +65,7 @@ export type AllProfileType = {
   _id: string;
   name: string
   about: string
+  socialMediaURL : string
   avatarImage: string
   backgroundImage: string
   successMessage: string

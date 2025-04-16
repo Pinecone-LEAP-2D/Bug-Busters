@@ -1,4 +1,4 @@
-import { CreateProfileParams } from "@/type";
+import { CreateProfileParams, ProfileType } from "@/type";
 import axios from "axios"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -20,8 +20,8 @@ export const createProfile = async ({ name, about, avatarImage, socialMediaURL, 
     return data
 }
 
-export const updateProfile = async (ProfileID: string) => {
-    const { data } = await instance.put(`/profile`, ProfileID);
+export const updateProfile = async ({ name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId }: ProfileType) => {
+    const { data } = await instance.put(`/profile`,{ name, about, avatarImage, socialMediaURL, backgroundImage, successMessage, userId });
     return data
 }
 
