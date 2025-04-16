@@ -17,7 +17,7 @@ const CountrySelection = ({
   onChange: (value: string) => void;
 }) => {
   const { bankCard } = useBankCard();
-  const country = bankCard[0].country;
+  const country = bankCard[0]?.country;
   return (
     <div className="flex flex-col gap-2">
       <p className="text-[14px] font-semibold">Select Country</p>

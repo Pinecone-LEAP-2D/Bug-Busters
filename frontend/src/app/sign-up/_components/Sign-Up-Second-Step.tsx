@@ -53,7 +53,7 @@ const SecondStep = (props: { setStep: Dispatch<SetStateAction<number>> }) => {
         try {
           console.log(values);
           const response = await axios.post(
-            "http://localhost:8000/user/sign-up",
+            "http://localhost:8001/user/sign-up",
             {
               email: values.email,
               password: values.password,
