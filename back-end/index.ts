@@ -1,9 +1,9 @@
 import express from "express";
-import { userRouter } from "./routers/user.router";
-import { profileRouter } from "./routers/profile.router";
 import cors from "cors";
-import { DonationRouter } from "./routers/donation.router";
-import { bankCardRouter } from "./routers/bankCard.router";
+import { bankCardRouter } from "./src/routers/bankCard.router";
+import { userRouter } from "./src/routers/user.router";
+import { profileRouter } from "./src/routers/profile.router";
+import { DonationRouter } from "./src/routers/donation.router";
 
 const app = express();
 app.use(express.json());
