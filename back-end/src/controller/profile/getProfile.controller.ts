@@ -6,7 +6,7 @@ export const getProfile = async (req: Request, res: Response) => {
   try {
     const result = await prisma.profile.findMany({
       where: {
-        userId,
+        userId: userId,
       },
     });
 
@@ -15,13 +15,11 @@ export const getProfile = async (req: Request, res: Response) => {
       return;
     }
 
-
     res.status(200).json({
       success: true,
       message: `Profile found`,
       data: result,
     });
-
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: true, message: "Internal Error" });
