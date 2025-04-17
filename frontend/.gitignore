@@ -20,3 +20,4 @@ Thumbs.db
 .next
 
 .package-lock.json
+.vercel

@@ -1,9 +1,27 @@
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
+type Profile = {
+  name: string;
+  avatarImage: string;
+};
 
-const RecentSupporters = ({ donorId }) => {
-  const [donation, setDonation] = useState([]);
+type Donor = {
+  profile: Profile;
+};
+
+type DonationItem = {
+  amount: number;
+  specialMessage: string;
+  donor: Donor;
+};
+
+type RecentSupportersProps = {
+  donorId: number;
+};
+
+const RecentSupporters = ({ donorId }: RecentSupportersProps) => {
+  const [donation, setDonation] = useState<DonationItem[]>([]);
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {

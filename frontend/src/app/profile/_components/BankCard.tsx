@@ -95,7 +95,7 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
       >
         {({ values, handleSubmit, setFieldValue, errors, touched }) => (
           <form onSubmit={handleSubmit}>
-            <div className="w-full p-6 h-auto border cursor-default rounded-lg flex flex-col gap-4">
+            <div className="w-[512px] p-6 h-auto border cursor-default rounded-lg flex flex-col gap-4">
               <h1 className="font-semibold">Payment details</h1>
               <div className="flex flex-col gap-2">
                 <CountrySelection
@@ -169,14 +169,14 @@ const BankCard: React.FC<BankCardProps> = ({ setStep }) => {
               </div>
               <div className="w-full h-auto flex justify-between">
                 <button
-                  className="cursor-pointer w-1/3 text-[12px] x-4 py-2 flex items-center justify-center bg-black rounded-sm text-white"
+                  className="cursor-pointer w-1/3 text-[12px] x-4 py-2 flex items-center justify-center bg-blue-500 rounded-sm text-white"
                   onClick={handleBackButton}
                 >
                   Back
                 </button>
                 <button
                   type="submit"
-                  className="cursor-pointer w-1/3 text-[12px] x-4 py-2 flex items-center justify-center bg-black rounded-sm text-white"
+                  className="cursor-pointer w-1/3 text-[12px] x-4 py-2 flex items-center justify-center bg-blue-500 rounded-sm text-white"
                 >
                   Save changes
                 </button>
