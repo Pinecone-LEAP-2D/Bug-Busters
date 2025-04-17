@@ -43,7 +43,7 @@ const ProfileContent = (
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <div className="bg-white flex flex-col gap-5 w-1/2 h-fit shadow">
+      <div className="bg-white flex flex-col gap-5 w-[650px] h-fit">
         <div className="flex flex-col gap-3 border p-6 rounded-2xl">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
