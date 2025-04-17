@@ -40,8 +40,6 @@ export const AllProfileProvider = ({
     }
   };
   const { userId } = useUser();
-  console.log(userId);
-
   const updateCoverPhoto = async (values: string) => {
     console.log(values);
 
