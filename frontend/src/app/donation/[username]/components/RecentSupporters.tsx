@@ -21,7 +21,7 @@ const RecentSupporters = ({ donorId }) => {
   const displayedDonations = showAll ? donation.slice(0, 5) : [donation[0]];
 
   return (
-        <div className="p-6 rounded-lg w-[625px] h-auto flex flex-col gap-6 bg-white">
+    <div className="p-6 rounded-lg w-[625px] h-auto flex flex-col gap-6 bg-white">
       <h1 className="font-medium mb-6">Recent supporters</h1>
 
       <div

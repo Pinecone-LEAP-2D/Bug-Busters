@@ -1,5 +1,6 @@
 "use client";
 
+import { useDonation } from "@/app/provider/DonationProvider";
 import { useProfile } from "@/app/provider/ProfileProvider";
 import { Button } from "@/components/ui/button";
 import { ProfileSchema } from "@/schema/profile";
@@ -18,7 +19,7 @@ export const ShowProfile = (props: EditProfileType) => {
 
 const ProfileContent = (props: EditProfileType & { profile: ProfileType }) => {
   const { userId, setIsEditing, profile } = props;
-
+  const { donations } = useDonation();
   const handleSubmit = () => {
     setIsEditing(true);
   };
@@ -65,12 +66,50 @@ const ProfileContent = (props: EditProfileType & { profile: ProfileType }) => {
         </div>
         <div className="flex flex-col p-6 border rounded-lg gap-3">
           <p className="font-semibold leading-6 text-base">Recent Supporters</p>
-          <div className="border rounded-lg flex flex-col h-[150px] justify-center items-center gap-1">
-            <Heart />
-            <p className="font-semibold">
-              Be the first one to support {formik.values.name}
-            </p>
-          </div>
+
+          <>
+            {donations.length > 0 ? (
+              <>
+                {donations?.map((element, index) => {
+                  return (
+                    <div
+                      className="w-full h-auto p-6 border-2 cursor-default rounded-lg flex flex-col gap-3"
+                      key={index}
+                    >
+                      <div className="flex justify-between">
+                        <div className="flex gap-1.5">
+                          <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
+                            <img
+                              className="object-cover"
+                              src={element?.donor?.profile?.avatarImage}
+                            />
+                          </div>
+                          <div>
+                            <h1 className="text-[14px]  flex">
+                              <p className="text-extrabold">
+                                {element?.donor?.profile?.name}{" "}
+                              </p>
+                              <p>bought {element.amount}$ coffee</p>
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-[14px]">{element.specialMessage}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              <div className="border rounded-lg flex flex-col h-[150px] justify-center items-center gap-1">
+                <Heart />
+                <p className="font-semibold">
+                  Be the first one to support {formik.values.name}
+                </p>
+              </div>
+            )}
+          </>
         </div>
       </div>
     </form>
