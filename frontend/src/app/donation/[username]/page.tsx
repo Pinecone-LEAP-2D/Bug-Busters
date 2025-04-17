@@ -25,7 +25,12 @@ const UserDetailedProfile = () => {
     setProfile(found);
   }, [allProfiles]);
 
-  if (!profile) return <>Not found</>;
+  if (!profile)
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <h1>User not found</h1>
+      </div>
+    );
   const donorId = profile.userId;
   console.log("dsadasdas", profile);
 
@@ -34,7 +39,7 @@ const UserDetailedProfile = () => {
       <Header />
       <div className=" relative flex justify-center rounded-lg ">
         <div className="w-full h-[300px] bg-red-300 top-0">Cover image</div>
-        <div className="bg-blue-300 w-[1280px] h-auto grid grid-cols-2 gap-6 absolute top-[250px] p-4">
+        <div className="w-[1280px] h-auto grid grid-cols-2 gap-6 absolute top-[250px] p-4">
           <AboutUser
             username={profile?.name}
             about={profile?.about}
@@ -43,11 +48,7 @@ const UserDetailedProfile = () => {
           <BuyCoffee donorId={donorId} />
           <SocialMediaUrl url={profile?.socialMediaURL} />
           <div className="col-span-2">
-            <RecentSupporters
-              name={profile?.name}
-              avatar={profile?.avatarImage}
-              donorId={donorId}
-            />
+            <RecentSupporters name={profile?.name} donorId={donorId} />
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ type PropsType = {
 
 const AboutUser = ({ username, about, avatar }: PropsType) => {
   return (
-    <div className="w-[625px] rounded-lg bg-white p-6">
+    <div className="w-[625px] h-auto rounded-lg bg-white p-6">
       <div className="pb-6 flex gap-2 items-center">
         <img
           className="w-12 h-12  rounded-full"
