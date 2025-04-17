@@ -20,7 +20,7 @@ const PaymentDetail = () => {
   const { bankCard, getData } = useBankCard();
   const card = bankCard[0];
   const { userId } = useUser();
-
+  console.log(bankCard);
   return (
     <Formik<PaymentFormValues>
       initialValues={{
@@ -83,7 +83,7 @@ const PaymentDetail = () => {
                 />
               </div>
               <InputField
-                type="password"
+                type={card?.cardNumber ? "password" : "text"}
                 label="Enter card number"
                 value={values.cardNumber}
                 onChange={(value) => setFieldValue("cardNumber", value)}

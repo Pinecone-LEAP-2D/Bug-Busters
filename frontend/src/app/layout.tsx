@@ -13,7 +13,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProfileAuthProvider from "./provider/ProfileAuthProvider";
 import AllProfileProvider from "./provider/AllProfileProvider";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

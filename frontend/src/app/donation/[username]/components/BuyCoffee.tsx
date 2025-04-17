@@ -4,9 +4,10 @@ import InputField from "./InputField";
 import CoffeeIcon from "@/app/assets/CoffeeIcon";
 import { useUser } from "@/app/provider/UserProvider";
 import { toast } from "react-toastify";
-
 import * as Yup from "yup";
 import axios from "axios";
+import { useBankCard } from "@/app/provider/BankCardProvider";
+import Link from "next/link";
 
 const validationSchema = Yup.object().shape({
   socialURLOrBuyMeCoffee: Yup.string()
@@ -23,9 +24,21 @@ const validationSchema = Yup.object().shape({
 
 const BuyCoffee = ({ donorId }: { donorId?: number }) => {
   const { userId } = useUser();
+  const { bankCard } = useBankCard();
+  console.log(bankCard);
 
   if (!donorId) return <></>;
-
+  if (bankCard.length === 0)
+    return (
+      <div className="w-[625px] bg-white rounded-lg flex-col gap-2 flex items-center justify-center">
+        <p> Please submit your bank card</p>
+        <Link href={"/homePage"}>
+          <button className="bg-blue-500 py-1.5 px-3 rounded-lg">
+            Click me !
+          </button>
+        </Link>
+      </div>
+    );
   return (
     <Formik
       initialValues={{
@@ -42,11 +55,6 @@ const BuyCoffee = ({ donorId }: { donorId?: number }) => {
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/donation`,
             {
-              // amount: values.amount,
-              // donorId: values.donorId,
-              // socialURLOrBuyMeCoffee: values.socialURLOrBuyMeCoffee,
-              // recipientId: values.recipientId,
-              // specialMessage: values.specialMessage,
               ...values,
             }
           );
