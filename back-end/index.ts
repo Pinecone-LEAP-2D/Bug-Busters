@@ -1,9 +1,11 @@
 import express from "express";
+import cors from "cors";
+import { bankCardRouter } from "./src/routers/bankCard.router";
 import { userRouter } from "./src/routers/user.router";
 import { profileRouter } from "./src/routers/profile.router";
-import cors from "cors";
 import { DonationRouter } from "./src/routers/donation.router";
-import { bankCardRouter } from "./src/routers/bankCard.router";
+
+
 
 const app = express();
 app.use(express.json());
