@@ -1,7 +1,9 @@
 "use client";
 
 import { getAllProfiles } from "@/utils/axios";
+import axios from "axios";
 import { useEffect, useState, createContext, useContext } from "react";
+import { useUser } from "./UserProvider";
 
 type ProfileType = {
   [x: string]: string | undefined;
@@ -15,6 +17,7 @@ type ProfileType = {
 type ProfilesContextType = {
   allProfiles: ProfileType[];
   getData: () => Promise<void>;
+  updateCoverPhoto: (values: string) => Promise<any>;
 };
 
 const AllProfileContext = createContext<ProfilesContextType>(
@@ -36,6 +39,22 @@ export const AllProfileProvider = ({
       console.log("error in get data from get all profile provider", err);
     }
   };
+  const { userId } = useUser();
+  console.log(userId);
+
+  const updateCoverPhoto = async (values: string) => {
+    console.log(values);
+
+    const { data } = await axios.put(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/profile/${userId}`,
+      {
+        backgroundImage: values,
+      }
+    );
+    console.log(data);
+
+    return data;
+  };
 
   useEffect(() => {
     getData();
@@ -46,6 +65,7 @@ export const AllProfileProvider = ({
       value={{
         allProfiles,
         getData,
+        updateCoverPhoto,
       }}
     >
       {children}
@@ -60,4 +80,3 @@ export const useAllProfiles = () => {
 };
 
 export default AllProfileProvider;
-
