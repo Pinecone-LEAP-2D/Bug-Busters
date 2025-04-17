@@ -32,7 +32,7 @@ const RecentSupporters = ({ name, donorId }) => {
           <p className="font-medium mb-6">
             {donation[0]?.donor?.profile?.name} bought ${donation[0]?.amount}
           </p>
-          <p>{donation[0].specialMessage}</p>
+          <p>{donation[0]?.specialMessage}</p>
         </div>
       </div>
       <button className="w-full flex h-auto py-2 items-center gap-2 justify-center border rounded-sm">
