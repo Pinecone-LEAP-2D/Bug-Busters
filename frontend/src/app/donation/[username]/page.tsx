@@ -7,8 +7,20 @@ import RecentSupporters from "./components/RecentSupporters";
 import BuyCoffee from "./components/BuyCoffee";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
-import { ProfileType } from "@/type";
 import { useAllProfiles } from "../../provider/AllProfileProvider";
+
+type ProfileType = {
+  about: string;
+  avatarImage: string;
+  backgroundImage: string;
+  createdAt: string;
+  id: number;
+  name: string;
+  socialMediaURL: string;
+  successMessage: string;
+  updatedAt: string;
+  userId: number;
+};
 
 const UserDetailedProfile = () => {
   const { allProfiles } = useAllProfiles();
@@ -18,12 +30,14 @@ const UserDetailedProfile = () => {
   const [profile, setProfile] = useState<ProfileType | undefined>(undefined);
 
   useEffect(() => {
-    const findProfile = (profile: any) => {
-      return profile?.name === username;
-    };
-    const found = allProfiles?.find(findProfile);
-    setProfile(found);
-  }, [allProfiles]);
+    if (allProfiles && username) {
+      const foundProfile = allProfiles.find((p: any) => p?.name === username);
+
+      if (foundProfile) {
+        setProfile(foundProfile as unknown as ProfileType);
+      }
+    }
+  }, [allProfiles, username]);
 
   if (!profile)
     return (
@@ -31,24 +45,31 @@ const UserDetailedProfile = () => {
         <h1>User not found</h1>
       </div>
     );
+
   const donorId = profile.userId;
-  console.log("dsadasdas", profile);
 
   return (
-    <div className="w-screen h-screen flex flex-col  ">
+    <div className="w-screen h-screen flex flex-col">
       <Header />
-      <div className=" relative flex justify-center rounded-lg ">
-        <div className="w-full h-[300px] bg-red-300 top-0">Cover image</div>
+      <div className="relative flex justify-center rounded-lg object-cover">
+        <img
+          className="w-full h-[300px] top-0"
+          src={
+            profile.backgroundImage
+              ? profile.backgroundImage
+              : "/loadingGif.gif"
+          }
+        />
         <div className="w-[1280px] h-auto grid grid-cols-2 gap-6 absolute top-[250px] p-4">
           <AboutUser
-            username={profile?.name}
-            about={profile?.about}
-            avatar={profile?.avatarImage}
+            username={profile.name}
+            about={profile.about}
+            avatar={profile.avatarImage}
           />
           <BuyCoffee donorId={donorId} />
-          <SocialMediaUrl url={profile?.socialMediaURL} />
+          <SocialMediaUrl url={profile.socialMediaURL} />
           <div className="col-span-2">
-            <RecentSupporters name={profile?.name} donorId={donorId} />
+            <RecentSupporters donorId={donorId} />
           </div>
         </div>
       </div>

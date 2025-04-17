@@ -46,38 +46,41 @@ export type Donation = {
 export type ProfileType = {
   donorId: unknown;
   _id: string;
-  name: string
-  about: string
-  avatarImage: string
-  backgroundImage: string
-  socialMediaURL : string
-  successMessage: string
-  userId: number | undefined
-}
+  name: string;
+  about: string;
+  avatarImage: string;
+  backgroundImage: string;
+  socialMediaURL: string;
+  successMessage: string;
+  userId: number | undefined;
+};
 
 export type ProfileContextType = {
   profile?: ProfileType;
-  isLoading: boolean
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
-}
+  isLoading: boolean;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+};
 
 export type AllProfileType = {
   _id: string;
-  name: string
-  about: string
-  socialMediaURL : string
-  avatarImage: string
-  backgroundImage: string
-  successMessage: string
-  userId: number
-}
+  name: string;
+  about: string;
+  socialMediaURL: string;
+  avatarImage: string;
+  backgroundImage: string;
+  successMessage: string;
+  userId: number;
+};
 
 export type AllProfileContextType = {
-  profiles: AllProfileType[] | undefined
-  isLoading: boolean
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<any, Error>>;
-}
-
+  profiles: AllProfileType[] | undefined;
+  isLoading: boolean;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
+};
 
 export type EditProfileType = {
   userId: number | undefined;
